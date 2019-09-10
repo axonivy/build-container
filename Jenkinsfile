@@ -17,9 +17,13 @@ pipeline {
     stage('build') {
       steps {
         script {
+
           dir ('rcptt') {
-            docker.build("build-container:rcptt-1.0")
+            docker.withRegistry('', 'docker.io') {
+              docker.build("axonivy/build-container:rcptt-1.0").push()
+            }
           }
+
         }
       }
     }
