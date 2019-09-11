@@ -2,6 +2,5 @@ FROM selenium/node-base
 
 RUN sudo apt-get -qqy update && sudo apt-get -qqy install openjdk-11-jdk maven libswt-gtk-4-java libwebkitgtk-3.0-0 libwebkit2gtk-4.0-37 openjfx
 
-ADD docker-entrypoint.sh /opt/docker-entrypoint.sh
-RUN chmod +x /opt/docker-entrypoint.sh
+COPY --chown=1000:1000 docker-entrypoint.sh /opt/docker-entrypoint.sh
 ENTRYPOINT ["/opt/docker-entrypoint.sh"]
