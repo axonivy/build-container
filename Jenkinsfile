@@ -20,7 +20,7 @@ pipeline {
 
           dir ('rcptt') {
             docker.withRegistry('', 'docker.io') {
-              docker.build("axonivy/build-container:rcptt-1.0").push()
+              docker.build("axonivy/build-container:rcptt-1.1").push()
             }
           }
 
