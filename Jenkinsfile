@@ -18,6 +18,7 @@ pipeline {
       steps {
         script {
           build('rcptt/1.1', 'rcptt-1.1')
+          build('read-the-docs/1.0', 'read-the-docs:0.0')
         }
       }
     }
