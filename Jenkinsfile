@@ -17,16 +17,18 @@ pipeline {
     stage('build') {
       steps {
         script {
-
-          dir ('rcptt') {
-            docker.withRegistry('', 'docker.io') {
-              docker.build("axonivy/build-container:rcptt-1.1").push()
-            }
-          }
-
+          build('rcptt/1.1', 'rcptt-1.1')
         }
       }
     }
 
+  }
+}
+
+def build(def directory, def tag) {
+  dir (directory) {
+    docker.withRegistry('', 'docker.io') {
+      docker.build("axonivy/build-container:${tag}").push()
+    }
   }
 }
