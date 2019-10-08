@@ -8,6 +8,4 @@ RUN apk add --update --no-cache make && \
 ADD Makefile /doc-build/
 WORKDIR /doc-build
 
-RUN chown 1000:1000 /doc-build
-
 USER 1000:1000
