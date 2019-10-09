@@ -12,9 +12,11 @@ ADD custom.css /tmp
 RUN cat /tmp/custom.css >> $RTD_THEME_DIR/static/css/theme.css
 
 # remove not needed fonts
-RUN rm $RTD_THEME_DIR/static/fonts/Inconsolata*
-RUN rm -rf $RTD_THEME_DIR/static/fonts/Lato
-RUN rm -rf $RTD_THEME_DIR/static/fonts/RobotoSlab
+RUN rm $RTD_THEME_DIR/static/fonts/Inconsolata* && \
+    rm -rf $RTD_THEME_DIR/static/fonts/Lato && \
+    rm -rf $RTD_THEME_DIR/static/fonts/RobotoSlab && \
+    rm $RTD_THEME_DIR/static/fonts/Lato* && \
+    rm $RTD_THEME_DIR/static/fonts/RobotoSlab*
 
 # add sphix build files
 ADD Makefile conf.py /doc-build/
@@ -25,6 +27,7 @@ ADD axonivylogo.svg favicon.png /doc-build/images/
 # removed modernizers, which triggers page reflows (flickering loading)
 # made changes to get rid of sphinx warning see here:
 # https://github.com/readthedocs/sphinx_rtd_theme/commit/a49a812c8821123091166fae1897d702cdc2d627#diff-b3d4a9c32d5abd89b9214dcfbb2ece79
+RUN rm $RTD_THEME_DIR/static/js/modernizr.min.js
 ADD search.html layout.html $RTD_THEME_DIR/
 
 # for build environment
