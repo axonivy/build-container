@@ -1,3 +1,5 @@
+images = ['all', 'rcptt/1.1', 'read-the-docs/1.1']
+
 pipeline {
   agent {
     label 'docker'
@@ -5,6 +7,10 @@ pipeline {
 
   options {
     buildDiscarder(logRotator(artifactNumToKeepStr: '50'))
+  }
+  
+  parameters {
+    choice name: 'image', choices: images
   }
 
   triggers {
@@ -17,8 +23,16 @@ pipeline {
     stage('build') {
       steps {
         script {
-          build('rcptt/1.1', 'rcptt-1.1')
-          build('read-the-docs/1.0', 'read-the-docs-1.0')
+          def image = params.image;
+          if (image?.trim() || image == 'all') {
+            images.each {
+              if (it != 'all') {
+                build(it)
+              }
+            }
+          } else {
+            build(image)
+          }
         }
       }
     }
@@ -26,7 +40,9 @@ pipeline {
   }
 }
 
-def build(def directory, def tag) {
+def build(def directory) {
+  def tag = directory.replace("/", "-")
+  echo "Building container tag $tag in directory $directory"
   dir (directory) {
     docker.withRegistry('', 'docker.io') {
       docker.build("axonivy/build-container:${tag}").push()
