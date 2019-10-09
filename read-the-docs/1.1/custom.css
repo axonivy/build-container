@@ -59,25 +59,25 @@ body {
 
 /* level 1 */
 .wy-menu-vertical li.toctree-l1.current > a {
-  background-color: #F9FAFA;
-  border-top: solid 1px #F9FAFA;
-  border-bottom: solid 1px #F9FAFA;
+  background-color: #F4F5F5;
+  border-top: solid 1px #F4F5F5;
+  border-bottom: solid 1px #F4F5F5;
   border-right: solid 1px #c9c9c9;
 }
 
 /* level 2 */
 .wy-menu-vertical li.toctree-l2.current > a {
-  background-color: #F9FAFA;
+  background-color: #F4F5F5;
   border-right: solid 1px #c9c9c9;
 }
 .wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a {
-  background-color: #F9FAFA;
+  background-color: #F4F5F5;
   border-right: solid 1px #c9c9c9;
 }
 
 /* level 3 */
 .wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a {
-  background-color: #F9FAFA;
+  background-color: #F4F5F5;
   border-right: solid 1px #c9c9c9;
 }
 
@@ -91,9 +91,12 @@ body {
 }
 
 .wy-menu-vertical a:hover {
-  background-color: #9C9D9D;
+  background-color: #c9c9c9;
 }
 
+.wy-menu-vertical li span.toctree-expand {
+  color: white;
+}
 
 /* make images captions nice */
 .wy-nav-content p.caption {
@@ -107,7 +110,7 @@ body {
 
 /* listings */
 .rst-content dl:not(.docutils) dt {
-  background-color: white;
+  background-color: transparent;
   color: #007095;
   border-top: 0px;
 }
@@ -121,23 +124,33 @@ body {
 }
 
 
-
-/*
+/* admotion */
 .rst-content .tip {
-  background-color:#D4EBA2;
+  background-color: rgba(42, 164, 131, 0.1);
 }
-.rst-content .tip .admonition-title {
-  background-color: #98A874;
+.rst-content .tip .admonition-title { 
+  background-color: #2AA483;
+}
+
+.rst-content .warning {
+  background-color:rgba(238, 74, 82, 0.123);
+}
+.rst-content .warning .admonition-title {
+  background-color: rgba(238, 74, 82, 0.8);
 }
 
 .rst-content .note {
-  background-color: #90DDE9;
+  background-color: #00709515;
 }
 .rst-content .note .admonition-title {
-  background-color: #49BAD6;
+  background-color: #007095;
 }
-*/
 
+
+/* inline code */
+.rst-content tt.literal, .rst-content tt.literal, .rst-content code.literal {
+  color: #D23636;
+}
 
 /* fix table widhts */
 /* https://rackerlabs.github.io/docs-rackspace/tools/rtd-tables.html */
