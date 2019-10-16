@@ -15,24 +15,6 @@ def parse_version_from_pom():
         version = version[:-9]
     return version
 
-def get_extensions():
-    # extensions needed every time
-    extensions = [
-       'sphinx.ext.extlinks',    
-       'sphinxcontrib.httpdomain'
-    ]
-    # extensions which slows down build
-    # only used in real build
-    slowExtensions = [
-       'sphinxprettysearchresults'
-    ]
-    # tags is a sphinx feature    
-    # can be set by command line with -t
-    if tags.has('enableAllExtensions'):
-        extensions.extend(slowExtensions)
-    return extensions
-
-
 # project
 project = 'Axon.ivy Digital Business Platform'
 copyright = get_current_year() + ', AXON Ivy AG'
@@ -45,7 +27,10 @@ master_doc = 'index'
 pygments_style = 'tango'
 add_function_parentheses = True
 
-extensions = get_extensions()
+extensions = [
+  'sphinx.ext.extlinks',    
+  'sphinxcontrib.httpdomain'
+]
 exclude_trees = []
 source_suffix = ['.rst']
 source_encoding = 'utf-8-sig'
