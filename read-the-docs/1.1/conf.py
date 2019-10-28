@@ -51,8 +51,8 @@ html_favicon = '/doc-build/images/favicon.png'
 # https://stackoverflow.com/questions/1227037/substitutions-inside-links-in-rest-sphinx
 extlinks = {
     'dev-url':  ('https://developer.axonivy.com%s', None),
-    'public-api':  ('https://developer.axonivy.com/doc/latest/PublicAPI%s', None),
-    'java-api':  ('https://docs.oracle.com/javase/8/docs/api%s', None),
+    'public-api':  ('https://developer.axonivy.com/doc/latest/public-api%s', None),
+    'java-api':  ('https://docs.oracle.com/en/java/javase/11/docs/api%s', None),
 }
 
 # token replacements
