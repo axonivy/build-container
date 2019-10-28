@@ -2,6 +2,10 @@
 
 Building your rst files with read the docs.
 
+You need to have a `pom.xml` in your project
+where parent version and project name is set.
+This will be used for the sphinx project.
+
 ## preview
 
 Use it as previewer with `docker-compose`:
@@ -32,4 +36,3 @@ Jenkins provides automatically all data into the build container, you have to de
     docker.image('axonivy/build-container:read-the-docs-1.1').inside {
         sh "make -C /doc-build html BASEDIR='${env.WORKSPACE}/doc'"
     }
-

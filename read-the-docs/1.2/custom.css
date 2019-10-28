@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+h1,h2,.rst-content .toctree-wrapper p.caption,h3,h4,h5,h6,legend {
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+}
+.rst-content .sidebar .sidebar-title {
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+}
+.rst-versions {
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+}
+.btn {
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+}
+input[type="button"],input[type="reset"],input[type="submit"] {
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+}
+input[type="text"],input[type="password"],input[type="email"],input[type="url"],input[type="date"],input[type="month"],input[type="time"],input[type="datetime"],input[type="datetime-local"],input[type="week"],input[type="number"],input[type="search"],input[type="tel"],input[type="color"]
+{
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+}
+textarea {
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+}
+body {
+  font-family: Roboto, Helvetica Neue, Arial, sans-serif;
+}
+
+
+/* use nice blue on the left side */
+.wy-side-nav-search {
+  background-color: #007095;
+}
+.wy-nav-side {
+  background-color: #007095;
+}
+
+/* mobile */
+.wy-nav-top {
+  background-color: #007095;
+}
+
+/* fix coloring of visited links */
+.wy-nav-content a:link  {
+  color: #007095;
+}
+.wy-nav-content a:visited  {
+  color: #007095;
+}
+.wy-nav-content a:hover {
+  color: #49BAD6;
+}
+
+/* spaces between single li elements */
+.wy-nav-content li {
+  margin: 0 0 4px 0;
+}
+
+
+/* level 1 */
+.wy-menu-vertical li.toctree-l1.current > a {
+  background-color: #F4F5F5;
+  border-top: solid 1px #F4F5F5;
+  border-bottom: solid 1px #F4F5F5;
+  border-right: solid 1px #c9c9c9;
+}
+
+/* level 2 */
+.wy-menu-vertical li.toctree-l2.current > a {
+  background-color: #F4F5F5;
+  border-right: solid 1px #c9c9c9;
+}
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a {
+  background-color: #F4F5F5;
+  border-right: solid 1px #c9c9c9;
+}
+
+/* level 3 */
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a {
+  background-color: #F4F5F5;
+  border-right: solid 1px #c9c9c9;
+}
+
+.wy-menu-vertical li.current {
+  /*background-color: #D9DADA;*/
+  background-color: #F4F5F5;
+}
+
+.wy-menu-vertical a {
+  color: white;
+}
+
+.wy-menu-vertical a:hover {
+  background-color: #c9c9c9;
+}
+
+.wy-menu-vertical li span.toctree-expand {
+  color: white;
+}
+
+/* make images captions nice */
+.wy-nav-content p.caption {
+  margin-top: 10px;
+}
+.wy-nav-content p.caption span.caption-text {
+  font-weight: bold;
+  font-style: normal;
+  font-size: 14px;
+}
+
+/* listings */
+.rst-content dl:not(.docutils) dt {
+  background-color: transparent;
+  color: #007095;
+  border-top: 0px;
+}
+
+
+/* back/forward buttons */
+.btn-neutral {
+  border-radius: 15px;
+  background-color: #F4F5F5;
+  font-size: 12px;
+}
+
+
+/* admotion */
+.rst-content .tip {
+  background-color: rgba(42, 164, 131, 0.1);
+}
+.rst-content .tip .admonition-title { 
+  background-color: #2AA483;
+}
+
+.rst-content .warning {
+  background-color:rgba(238, 74, 82, 0.123);
+}
+.rst-content .warning .admonition-title {
+  background-color: rgba(238, 74, 82, 0.8);
+}
+
+.rst-content .note {
+  background-color: #00709515;
+}
+.rst-content .note .admonition-title {
+  background-color: #007095;
+}
+
+.caption-text {
+  color: #D9DADA;
+}
+
+.wy-menu > ul > .toctree-l1 {
+  font-weight: 700;
+}
+
+.toctree-wrapper > .caption {
+  display: none;
+}
+
+/* inline code */
+.rst-content tt.literal, .rst-content tt.literal, .rst-content code.literal {
+  color: #D23636;
+}
+
+/* fix table widhts */
+/* https://rackerlabs.github.io/docs-rackspace/tools/rtd-tables.html */
+@media screen and (min-width: 767px) {
+  .wy-table-responsive table td {
+     /* !important prevents the common CSS stylesheets from overriding
+        this as on RTD they are loaded after this stylesheet */
+     white-space: normal !important;
+     vertical-align: top !important;
+  }
+  .wy-table-responsive {
+     overflow: visible !important;
+  }
+}

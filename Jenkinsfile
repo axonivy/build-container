@@ -1,4 +1,4 @@
-images = ['all', 'rcptt/1.1', 'read-the-docs/1.1']
+images = ['all', 'rcptt/1.1', 'read-the-docs/1.2']
 
 pipeline {
   agent {
