@@ -6,13 +6,9 @@ def get_current_year():
 
 def parse_version_from_pom():
     import os
-    from xml.etree import ElementTree as et
-    tree = et.ElementTree()    
-    tree.parse(os.environ['BASEDIR'] + '/pom.xml')
-    ns = {"mvn":"http://maven.apache.org/POM/4.0.0"}
-    version = tree.getroot().find('./mvn:parent/mvn:version', ns).text
-    if version.endswith('-SNAPSHOT'):
-        version = version[:-9]
+    version = 'dev'
+    if "VERSION" in os.environ:
+      version = os.environ['VERSION']
     return version
 
 def parse_project_name_from_pom():
@@ -37,7 +33,7 @@ pygments_style = 'tango'
 add_function_parentheses = True
 
 extensions = [
-  'sphinx.ext.extlinks',    
+  'sphinx.ext.extlinks',
   'sphinxcontrib.httpdomain'
 ]
 exclude_trees = []
