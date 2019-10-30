@@ -5,11 +5,25 @@ def get_current_year():
     return str(datetime.today().year)
 
 def parse_version_from_pom():
+
+    # 1. get version from environment variable
     import os
-    version = 'dev'
     if "VERSION" in os.environ:
-      version = os.environ['VERSION']
-    return version
+      return os.environ['VERSION']
+
+    # 2. get version from pom.xml <VERSION>    
+    pomFile = os.environ['BASEDIR'] + '/pom.xml'
+    if os.path.isfile(pomFile):
+      from xml.etree import ElementTree as et
+      tree = et.ElementTree()
+      tree.parse(pomFile)
+      ns = {"mvn":"http://maven.apache.org/POM/4.0.0"}
+      element = tree.getroot().find('./mvn:version', ns)
+      if element is not None:
+        return element.text      
+
+    # 3. fallback to dev version
+    return 'dev'
 
 def parse_project_name_from_pom():
     import os
