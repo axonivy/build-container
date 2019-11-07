@@ -24,7 +24,7 @@ pipeline {
       steps {
         script {
           def image = params.image;
-          if (image?.trim() || image == 'all') {
+          if (image == 'all') {
             images.each {
               if (it != 'all') {
                 build(it)
