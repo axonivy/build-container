@@ -2,6 +2,10 @@
 
 Building your rst files with read the docs.
 
+You need a `pom.xml` in your root folder
+which defines a `<name>` xml tag.
+This will be used as project title.
+
 ## preview
 
 Use it as previewer with `docker-compose`:
