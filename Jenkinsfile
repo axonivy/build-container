@@ -24,7 +24,7 @@ pipeline {
           def image = params.image;
           if (image == 'all') {
             images.each {
-              runBuild(image);              
+              runBuild(it);              
             }
           } else {
             runBuild(image)
