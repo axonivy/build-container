@@ -1,4 +1,4 @@
-images = ['all', 'rcptt/1.1', 'read-the-docs/1.2', 'ssh-client/1.0', 'web/1.0', 'oracle']
+images = ['all', 'rcptt/1.1', 'read-the-docs/1.2', 'ssh-client/1.0', 'web/1.0', 'eclipse-test/1.0', 'oracle']
 
 pipeline {
   agent any
