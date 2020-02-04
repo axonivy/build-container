@@ -72,6 +72,7 @@ extlinks = {
     'dev-url':  ('https://developer.axonivy.com%s', None),
     'public-api':  ('https://developer.axonivy.com/doc/' + version + '/public-api%s', None),
     'java-api':  ('https://docs.oracle.com/en/java/javase/11/docs/api%s', None),
+    'github-build-examples': ('https://github.com/axonivy/project-build-examples/blob/master/compile-test%s', None),
 }
 
 # token replacements
