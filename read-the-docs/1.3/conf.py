@@ -72,7 +72,7 @@ extlinks = {
     'dev-url':  ('https://developer.axonivy.com%s', None),
     'public-api':  ('https://developer.axonivy.com/doc/' + version + '/public-api%s', None),
     'java-api':  ('https://docs.oracle.com/en/java/javase/11/docs/api%s', None),
-    'portal-url':  ('https://developer.axonivy.com/documentation/portal-guide/' + version + '/%s', None),
+    'portal-url':  ('https://developer.axonivy.com/portal/' + version + '/doc', None),
     'github-build-examples': ('https://github.com/axonivy/project-build-examples/blob/master/compile-test%s', None),
 }
 
