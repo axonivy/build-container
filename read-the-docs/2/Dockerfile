@@ -3,7 +3,7 @@ FROM python:3.8-alpine
 ADD requirements.txt requirements.txt
 
 RUN apk add --update --no-cache make && \
-    apk add --update --no-cache graphviz font-bitstream-type1 && \
+    apk add --update --no-cache graphviz ttf-ubuntu-font-family && \
     pip3 install -r requirements.txt
 
 ARG RTD_THEME_DIR=/usr/local/lib/python3.8/site-packages/sphinx_rtd_theme

@@ -45,7 +45,7 @@ needs_sphinx = '1.5.6'
 master_doc = 'index'
 pygments_style = 'tango'
 add_function_parentheses = True
-graphviz_output_format = 'svg'
+graphviz_output_format = 'png'
 
 extensions = [
   'sphinx.ext.extlinks',
