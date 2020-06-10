@@ -54,6 +54,8 @@
       {%- endfor %}
     {% endif %}
     <script type="text/javascript" src="{{ pathto('_static/js/theme.js', 1) }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-linkify/2.1.9/linkify.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-linkify/2.1.9/linkify-jquery.min.js"></script>
 
     {# OPENSEARCH #}
     {%- if use_opensearch %}
@@ -211,6 +213,21 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable({{ 'true' if theme_sticky_navigation|tobool else 'false' }});
       });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $(".highlight-yaml").linkify({
+        validate: {
+          url: function(value) {
+            return /^(http)s?:\/\//.test(value);
+          },
+          email: function(value) {
+            return false;
+          }
+        }
+      });
+    });
   </script>
 
   {# Do not conflict with RTD insertion of analytics script #}
