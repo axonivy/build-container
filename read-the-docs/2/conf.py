@@ -41,7 +41,7 @@ version = parse_version_from_pom()
 release = version
 
 # general options
-needs_sphinx = '1.5.6'
+needs_sphinx = '3.1'
 master_doc = 'index'
 pygments_style = 'tango'
 add_function_parentheses = True
@@ -65,6 +65,14 @@ html_logo = '/doc-build/images/axonivylogo.svg'
 html_theme_options = {
     'logo_only': True
 }
+html_css_files = [
+    'custom.css'
+]
+html_js_files = [
+    'https://cdnjs.cloudflare.com/ajax/libs/jQuery-linkify/2.1.9/linkify.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/jQuery-linkify/2.1.9/linkify-jquery.min.js',
+    'custom.js'
+]
 html_show_sphinx = False
 html_favicon = '/doc-build/images/favicon.png'
 
