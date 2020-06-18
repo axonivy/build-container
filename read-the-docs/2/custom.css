@@ -51,16 +51,6 @@ body {
   color: #49BAD6;
 }
 
-/* spaces between single li elements */
-.wy-nav-content li {
-  margin: 0 0 4px 0;
-}
-
-.logo {
-  max-width: 270px !important;
-}
-
-
 /* level 1 */
 .wy-menu-vertical li.toctree-l1.current > a {
   background-color: #F4F5F5;
@@ -86,7 +76,6 @@ body {
 }
 
 .wy-menu-vertical li.current {
-  /*background-color: #D9DADA;*/
   background-color: #F4F5F5;
 }
 
@@ -102,16 +91,6 @@ body {
   color: white;
 }
 
-/* make images captions nice */
-.wy-nav-content p.caption {
-  margin-top: 10px;
-}
-.wy-nav-content p.caption span.caption-text {
-  font-weight: bold;
-  font-style: normal;
-  font-size: 14px;
-}
-
 /* listings */
 .rst-content dl:not(.docutils) dt {
   background-color: transparent;
@@ -119,14 +98,11 @@ body {
   border-top: 0px;
 }
 
-
 /* back/forward buttons */
 .btn-neutral {
   border-radius: 15px;
-  background-color: #F4F5F5;
   font-size: 12px;
 }
-
 
 /* admotion */
 .rst-content .tip {
@@ -150,10 +126,6 @@ body {
   background-color: #007095;
 }
 
-.caption-text {
-  color: #D9DADA;
-}
-
 .wy-menu > ul > .toctree-l1 {
   font-weight: 700;
 }
@@ -165,18 +137,4 @@ body {
 /* inline code */
 .rst-content tt.literal, .rst-content tt.literal, .rst-content code.literal {
   color: #D23636;
-}
-
-/* fix table widhts */
-/* https://rackerlabs.github.io/docs-rackspace/tools/rtd-tables.html */
-@media screen and (min-width: 767px) {
-  .wy-table-responsive table td {
-     /* !important prevents the common CSS stylesheets from overriding
-        this as on RTD they are loaded after this stylesheet */
-     white-space: normal !important;
-     vertical-align: top !important;
-  }
-  .wy-table-responsive {
-     overflow: visible !important;
-  }
 }
