@@ -66,6 +66,7 @@ def buildOracleDb() {
 }
 
 def buildOracleImage(String oracleBinaryUrl, String version, String filename, def image) {
+  def baseImage
   dir ('docker-images/OracleDatabase/SingleInstance/dockerfiles') {
     // download oracle binary
     sh "curl -L $oracleBinaryUrl -o $version/$filename"
@@ -73,8 +74,50 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
     // -v = Version, -s = Standard Edition
     sh "./buildDockerImage.sh -v $version -s"
 
+    baseImage = docker.image(image)
     docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
-      docker.image(image).push()
+      baseImage.push()
     }
   }
+  def currentDir = pwd()
+  sh "mkdir oracle/${version}/data"
+  sh "chmod 777 oracle/${version}/data"
+  
+  baseImage.withRun("-v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata -v ${currentDir}/oracle/${version}/dbca.rsp.tmpl:/opt/oracle/dbca.rsp.tmpl --user=54321:1000 "+'-e "ORACLE_SID=ORASID" -e "ORACLE_PDB=ORAPDB" -e "ORACLE_CHARACTERSET=AL32UTF8" -e "ORACLE_PWD=nimda"') { container -> 
+    waitUntilDbIsReady(container)
+  }
+  
+  def dbImage = docker.build("oracle/database-orapdb:${version}-se2", "oracle/${version}")
+  docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
+    dbImage.push()
+  }
+
+  makeDataDirDeleteableForJenkins(dbImage, currentDir, version)
 }
+
+def waitUntilDbIsReady(container)
+{
+  def attempts = 0;
+  while (attempts < 180) 
+  {
+    if (isDbReady(container))
+    {
+      return
+    }
+    attempts++
+    sleep 10
+  }
+  error("Database initialization timeouted after 30 minutes")
+}
+
+def isDbReady(container)
+{
+  return sh (script: "docker logs ${container.id} | grep 'DATABASE IS READY TO USE!'", returnStatus: true) == 0
+}
+
+def makeDataDirDeleteableForJenkins(dbImage, currentDir, version)
+{
+  dbImage.withRun(" -v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata --user=54321:1000", "chmod -R 777 /opt/oracle/oradata/ORASID", { container -> })
+  dbImage.withRun(" -v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata --user=54321:1000", "chmod -R 777 /opt/oracle/oradata/dbconfig", { container -> })
+}
+
