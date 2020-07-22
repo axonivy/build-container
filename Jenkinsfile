@@ -51,7 +51,10 @@ def build(def directory) {
   echo "Building container tag $tag in directory $directory"
   dir (directory) {
     docker.withRegistry('', 'docker.io') {
-      docker.build("axonivy/build-container:${tag}").push()
+      def image = docker.build("axonivy/build-container:${tag}")
+      if (env.BRANCH_NAME == 'master') {
+        image.push()
+      }
     }
   }
 }
@@ -76,7 +79,9 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
 
     baseImage = docker.image(image)
     docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
-      baseImage.push()
+      if (env.BRANCH_NAME == 'master') {
+        baseImage.push()
+      }
     }
   }
   def currentDir = pwd()
@@ -89,7 +94,9 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
   
   def dbImage = docker.build("oracle/database-orapdb:${version}-se2", "oracle/${version}")
   docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
-    dbImage.push()
+    if (env.BRANCH_NAME == 'master') {
+      dbImage.push()
+    }
   }
 
   makeDataDirDeleteableForJenkins(dbImage, currentDir, version)
@@ -120,4 +127,3 @@ def makeDataDirDeleteableForJenkins(dbImage, currentDir, version)
   dbImage.withRun(" -v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata --user=54321:1000", "chmod -R 777 /opt/oracle/oradata/ORASID", { container -> })
   dbImage.withRun(" -v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata --user=54321:1000", "chmod -R 777 /opt/oracle/oradata/dbconfig", { container -> })
 }
-
