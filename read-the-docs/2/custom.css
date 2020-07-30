@@ -91,6 +91,19 @@ body {
   color: white;
 }
 
+/* ease distinction of block and headings */
+p{
+  margin-bottom: 8px;
+}
+h2{
+  margin-top: 30px;
+  margin-bottom: 5px;
+}
+h3{
+  margin-top: 20px;
+  margin-bottom: 3px;
+}
+
 /* listings */
 .rst-content dl:not(.docutils) dt {
   background-color: transparent;
@@ -138,3 +151,14 @@ body {
 .rst-content tt.literal, .rst-content tt.literal, .rst-content code.literal {
   color: #D23636;
 }
+
+/* more toggle in N&N */
+.toggle .header {
+  clear: both;
+ }
+ .toggle .header p::after {
+   content: " ▶";
+ }
+ .toggle .header.open p::after {
+   content: " ▼";
+ }
