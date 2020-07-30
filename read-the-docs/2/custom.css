@@ -138,3 +138,14 @@ body {
 .rst-content tt.literal, .rst-content tt.literal, .rst-content code.literal {
   color: #D23636;
 }
+
+/* more toggle in N&N */
+.toggle .header {
+  clear: both;
+ }
+ .toggle .header p::after {
+   content: " ▶";
+ }
+ .toggle .header.open p::after {
+   content: " ▼";
+ }
