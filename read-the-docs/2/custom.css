@@ -155,10 +155,17 @@ h3{
 /* more toggle in N&N */
 .toggle .header {
   clear: both;
- }
- .toggle .header p::after {
-   content: " ▶";
- }
- .toggle .header.open p::after {
-   content: " ▼";
- }
+  cursor: pointer;
+}
+.toggle .header::before {
+  float: left;
+}
+.toggle .header p {
+  line-height: 16px;
+}
+.toggle .header p::after {
+  content: " ▶";
+}
+.toggle .header.open p::after {
+  content: " ▼";
+}
