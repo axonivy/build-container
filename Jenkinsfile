@@ -1,4 +1,4 @@
-images = ['all', 'rcptt/1.1', 'read-the-docs/2', 'ssh-client/1.0', 'web/1.0', 'eclipse-test/1.0', 'oracle']
+images = ['all', 'rcptt/1.1', 'read-the-docs/2', 'ssh-client/1.0', 'web/1.0', 'eclipse-test/1.0', 'oracle', 'edirectory']
 
 pipeline {
   agent any
@@ -41,8 +41,22 @@ def runBuild(def image) {
     buildOracleDb()
   } else if (image == 'all') {
     return
+  } else if (image == 'edirectory'){
+    buildEdirectory()
   } else {
-     build(image)              
+    build(image)              
+  }
+}
+
+def buildEdirectory(){
+  wget http://zugpronas:5000/fbsharing/ofPMJOCK -O /tmp/edirectory.tar.gz
+  tar -xvf /tmp/edirectory.tar.gz -C /tmp
+  docker load --input /tmp/edir920.tar
+  def image = docker.image("edirectory:9.2.0")
+  docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
+    if (env.BRANCH_NAME == 'master') {
+      image.push()
+    }
   }
 }
 
