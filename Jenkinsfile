@@ -49,9 +49,9 @@ def runBuild(def image) {
 }
 
 def buildEdirectory(){
-  wget http://zugpronas:5000/fbsharing/ofPMJOCK -O /tmp/edirectory.tar.gz
-  tar -xvf /tmp/edirectory.tar.gz -C /tmp
-  docker load --input /tmp/edir920.tar
+  sh 'wget http://zugpronas:5000/fbsharing/ofPMJOCK -O /tmp/edirectory.tar.gz'
+  sh 'tar -xvf /tmp/edirectory.tar.gz -C /tmp'
+  sh 'docker load --input /tmp/edir920.tar'
   def image = docker.image("edirectory:9.2.0")
   docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
     if (env.BRANCH_NAME == 'master') {
