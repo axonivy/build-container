@@ -4,6 +4,14 @@ def get_current_year():
     from datetime import datetime
     return str(datetime.today().year)
 
+def parse_build_example_version():
+
+    # 1. get version from environment variable
+    import os
+    if "BUILD_EXAMPLE_VERSION" in os.environ:
+      return os.environ['BUILD_EXAMPLE_VERSION']
+    return 'master'
+
 def parse_version_from_pom():
 
     # 1. get version from environment variable
@@ -38,6 +46,7 @@ def parse_project_name_from_pom():
 project = parse_project_name_from_pom()
 copyright = get_current_year() + ' AXON Ivy AG'
 version = parse_version_from_pom()
+buildExampleVersion = parse_build_example_version()
 release = version
 
 # general options
@@ -83,7 +92,7 @@ extlinks = {
     'public-api':  ('https://developer.axonivy.com/doc/' + version + '/public-api%s', None),
     'java-api':  ('https://docs.oracle.com/en/java/javase/11/docs/api%s', None),
     'portal-url':  ('https://developer.axonivy.com/portal/' + version + '/doc%s', None),
-    'github-build-examples': ('https://github.com/axonivy/project-build-examples/blob/master/compile-test%s', None),
+    'github-build-examples': ('https://github.com/axonivy/project-build-examples/blob/' + buildExampleVersion + '/compile-test%s', None),
 }
 
 # token replacements
