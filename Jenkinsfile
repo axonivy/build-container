@@ -17,7 +17,6 @@ pipeline {
   }
 
   stages {
-
     stage('build') {
       steps {
         script {
@@ -44,7 +43,9 @@ def runBuild(def image) {
   } else if (image == 'edirectory'){
     buildEdirectory()
   } else {
-    build(image)              
+    docker.withRegistry('', 'docker.io') {
+      build(image)
+    }
   }
 }
 
