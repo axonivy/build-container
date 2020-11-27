@@ -90,7 +90,14 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
     sh "curl -L $oracleBinaryUrl -o $version/$filename"
 
     // -v = Version, -s = Standard Edition
-    sh "./buildDockerImage.sh -v $version -s"
+    try {
+      withCredentials([usernamePassword(credentialsId: 'docker.io', usernameVariable: 'hubUser', passwordVariable: 'hubPassword')]) {
+        sh "docker login -u ${hubUser} -p ${hubPassword}"
+      }
+      sh "./buildDockerImage.sh -v $version -s"
+    } finally {
+      sh 'docker logout'
+    }
 
     baseImage = docker.image(image)
     docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
