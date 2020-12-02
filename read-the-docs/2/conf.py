@@ -50,7 +50,7 @@ buildExampleVersion = parse_build_example_version()
 release = version
 
 # general options
-needs_sphinx = '3.3'
+needs_sphinx = '3.1'
 master_doc = 'index'
 pygments_style = 'tango'
 add_function_parentheses = True
@@ -58,7 +58,8 @@ graphviz_output_format = 'png'
 
 extensions = [
   'sphinx.ext.extlinks',
-  'sphinx.ext.graphviz'
+  'sphinx.ext.graphviz',
+  'sphinxcontrib.httpdomain'
 ]
 exclude_trees = []
 source_suffix = ['.rst']
