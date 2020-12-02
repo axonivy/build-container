@@ -7,7 +7,7 @@ RUN apk add --update --no-cache make && \
     pip3 install -r requirements.txt
 
 # add custom css and javascript to the theme
-ARG RTD_THEME_DIR=/usr/local/lib/python3.8/site-packages/sphinx_rtd_theme
+ARG RTD_THEME_DIR=/usr/local/lib/python3.9/site-packages/sphinx_rtd_theme
 ADD custom.css $RTD_THEME_DIR/static/custom.css
 ADD custom.js $RTD_THEME_DIR/static/custom.js
 
