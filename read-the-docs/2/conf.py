@@ -92,6 +92,7 @@ extlinks = {
     'java-api':  ('https://docs.oracle.com/en/java/javase/11/docs/api%s', None),
     'portal-url':  ('https://developer.axonivy.com/portal/' + version + '/doc%s', None),
     'github-build-examples': ('https://github.com/axonivy/project-build-examples/blob/' + buildExampleVersion + '/compile-test%s', None),
+    'api-browser-url': ('https://developer.axonivy.com/doc-api-browser?url=https://developer.axonivy.com/doc/' + version + '/public-api/%s', None),
 }
 
 # token replacements
