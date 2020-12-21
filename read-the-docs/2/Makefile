@@ -19,7 +19,6 @@ help:
 .PHONY: help Makefile
 
 # auto build documentation on file change and provide web browser "make livehtml"
-# --poll for windows. virtual box does not notify file changes.
 livehtml:
 	sphinx-autobuild -c "$(CONFIGDIR)" --host 0.0.0.0 "$(SOURCEDIR)" "$(BUILDDIR)/html" $(O)
 
