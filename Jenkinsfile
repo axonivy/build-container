@@ -54,7 +54,7 @@ def buildEdirectory(){
   sh 'tar -xvf /tmp/edirectory.tar.gz -C /tmp'
   sh 'docker load --input /tmp/edir920.tar'
   def image = docker.image("edirectory:9.2.0")
-  docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
+  docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
     if (env.BRANCH_NAME == 'master') {
       image.push()
     }
