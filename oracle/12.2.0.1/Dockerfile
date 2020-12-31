@@ -1,4 +1,4 @@
-FROM registry.ivyteam.io/oracle/database:12.2.0.1-se2
+FROM docker-registry.ivyteam.io/oracle/database:12.2.0.1-se2
 ADD --chown=oracle:dba data /opt/oracle/oradata
 ENV ORACLE_SID=ORASID
 ENV ORACLE_PDB=ORAPDB
