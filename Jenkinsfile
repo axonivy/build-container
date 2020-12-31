@@ -90,17 +90,10 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
     sh "curl -L $oracleBinaryUrl -o $version/$filename"
 
     // -v = Version, -s = Standard Edition
-    try {
-      withCredentials([usernamePassword(credentialsId: 'docker.io', usernameVariable: 'hubUser', passwordVariable: 'hubPassword')]) {
-        sh "docker login -u ${hubUser} -p ${hubPassword}"
-      }
-      sh "./buildDockerImage.sh -v $version -s"
-    } finally {
-      sh 'docker logout'
-    }
+    sh "./buildDockerImage.sh -v $version -s"
 
     baseImage = docker.image(image)
-    docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
+    docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
       if (env.BRANCH_NAME == 'master') {
         baseImage.push()
       }
@@ -115,7 +108,7 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
   }
   
   def dbImage = docker.build("oracle/database-orapdb:${version}-se2", "oracle/${version}")
-  docker.withRegistry('https://registry.ivyteam.io', 'registry.ivyteam.io') {
+  docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
     if (env.BRANCH_NAME == 'master') {
       dbImage.push()
     }
