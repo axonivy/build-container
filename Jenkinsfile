@@ -12,7 +12,6 @@ pipeline {
   }
 
   triggers {
-    pollSCM 'H/10 * * * *'
     cron '@midnight'
   }
 
