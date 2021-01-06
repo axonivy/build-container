@@ -1,7 +1,3 @@
-# build-container
+# Build Container
 
-## ressources
-
-- https://jenkins.io/doc/book/pipeline/docker/
-- https://zugprojenkins/job/build-container/job/master/pipeline-syntax/globals
-
+These containers are used to build software.
