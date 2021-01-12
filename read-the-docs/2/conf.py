@@ -58,7 +58,8 @@ graphviz_output_format = 'png'
 
 extensions = [
   'sphinx.ext.extlinks',
-  'sphinx.ext.graphviz'
+  'sphinx.ext.graphviz',
+  'sphinxcontrib.httpdomain'
 ]
 exclude_trees = []
 source_suffix = ['.rst']
