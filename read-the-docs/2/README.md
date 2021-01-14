@@ -10,7 +10,7 @@ This will be used as project title.
 
 Use it as previewer with `docker-compose`:
 
-The container needs to have to all sphinx
+The container needs to have access to all sphinx
 ressources (`.rst` files, images, code-snippets, etc.)
 available.
 
