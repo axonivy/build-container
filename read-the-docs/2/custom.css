@@ -169,3 +169,8 @@ h3{
 .toggle .header.open p::after {
   content: " ▼";
 }
+
+/* no additional space after explicit new line block */
+.rst-content .line-block {
+  margin-bottom: 0px;
+}
