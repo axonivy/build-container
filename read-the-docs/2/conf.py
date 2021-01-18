@@ -103,6 +103,7 @@ replacements = {
     '|ivy-engine|' : 'Axon.ivy Engine',
     '|ivy-designer|': 'Axon.ivy Designer',
     '|axon-ivy|': 'Axon.ivy',
+    '|version|': version,
 }
 
 def replace_token(app, docname, source):
