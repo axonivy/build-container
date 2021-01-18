@@ -42,6 +42,12 @@ def parse_project_name_from_pom():
     name = tree.getroot().find('./mvn:name', ns).text
     return name
 
+def parse_major_version(version):
+    major = version.split(".")[0]
+    if major.isnumeric():
+        return major
+    return version
+
 # project
 project = parse_project_name_from_pom()
 copyright = get_current_year() + ' AXON Ivy AG'
@@ -104,6 +110,7 @@ replacements = {
     '|ivy-designer|': 'Axon.ivy Designer',
     '|axon-ivy|': 'Axon.ivy',
     '|version|': version,
+    '|majorVersion|': parse_major_version(version),
 }
 
 def replace_token(app, docname, source):
