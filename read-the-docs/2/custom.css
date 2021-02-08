@@ -121,6 +121,7 @@ h3{
 .rst-content .tip {
   background-color: rgba(42, 164, 131, 0.1);
 }
+.rst-content .docutils .tip .admonition-title,
 .rst-content .tip .admonition-title { 
   background-color: #2AA483;
 }
@@ -128,6 +129,7 @@ h3{
 .rst-content .warning {
   background-color:rgba(238, 74, 82, 0.123);
 }
+.rst-content .docutils .warning .admonition-title,
 .rst-content .warning .admonition-title {
   background-color: rgba(238, 74, 82, 0.8);
 }
