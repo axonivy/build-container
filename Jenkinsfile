@@ -56,23 +56,27 @@ def buildEdirectory(){
   sh 'wget http://zugpronas:5000/fbsharing/ofPMJOCK -O /tmp/edirectory.tar.gz'
   sh 'tar -xvf /tmp/edirectory.tar.gz -C /tmp'
   sh 'docker load --input /tmp/edir920.tar'
-  def image = docker.image("edirectory:9.2.0")
+  def name = "edirectory:9.2.0"
+  def image = docker.image(name)
   docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
     if (env.BRANCH_NAME == 'master') {
       image.push()
     }
+    sh "docker image rm ${name}"
   }
 }
 
 def build(def directory) {
   def tag = directory.replace("/", "-")
+  def name = "axonivy/build-container:${tag}"
   echo "Building container tag $tag in directory $directory"
   dir (directory) {
     docker.withRegistry('', 'docker.io') {
-      def image = docker.build("axonivy/build-container:${tag}")
+      def image = docker.build(name)
       if (env.BRANCH_NAME == 'master') {
         image.push()
       }
+      sh "docker image rm ${name}"
     }
   }
 }
@@ -82,11 +86,12 @@ def buildOracleDb() {
   sh 'rm -rf docker-images'
   sh 'git clone https://github.com/oracle/docker-images'
 
-  buildOracleImage('http://zugpronas:5000/fbsharing/MJy3pk5S', '12.2.0.1', 'linuxx64_12201_database.zip', 'oracle/database:12.2.0.1-se2')
-  buildOracleImage('http://zugpronas:5000/fbsharing/5JgTn1Co', '19.3.0', 'LINUX.X64_193000_db_home.zip', 'oracle/database:19.3.0-se2')
+  buildOracleImage('http://zugpronas:5000/fbsharing/MJy3pk5S', '12.2.0.1', 'linuxx64_12201_database.zip')
+  buildOracleImage('http://zugpronas:5000/fbsharing/5JgTn1Co', '19.3.0', 'LINUX.X64_193000_db_home.zip')
 }
 
-def buildOracleImage(String oracleBinaryUrl, String version, String filename, def image) {
+def buildOracleImage(String oracleBinaryUrl, String version, String filename) {
+  def baseName = "oracle/database:${version}-se2"
   def baseImage
   dir ('docker-images/OracleDatabase/SingleInstance/dockerfiles') {
     // download oracle binary
@@ -95,7 +100,7 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
     // -v = Version, -s = Standard Edition
     sh "./buildContainerImage.sh -v $version -s"
 
-    baseImage = docker.image(image)
+    baseImage = docker.image(baseName)
     docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
       if (env.BRANCH_NAME == 'master') {
         baseImage.push()
@@ -110,7 +115,8 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
     waitUntilDbIsReady(container)
   }
   
-  def dbImage = docker.build("oracle/database-orapdb:${version}-se2", "oracle/${version}")
+  def dbName = "oracle/database-orapdb:${version}-se2"
+  def dbImage = docker.build(dbName, "oracle/${version}")
   docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
     if (env.BRANCH_NAME == 'master') {
       dbImage.push()
@@ -118,6 +124,10 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename, de
   }
 
   makeDataDirDeleteableForJenkins(dbImage, currentDir, version)
+
+  sh "docker image rm ${baseName}"
+  sh "docker image rm ${dbName}"
+  sh "docker volume prune -f"
 }
 
 def waitUntilDbIsReady(container)
