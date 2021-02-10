@@ -19,7 +19,7 @@ And define `BASEDIR` as parameter where this place is in the container.
 
     version: '3.3'
     services:
-    builder:
+      builder:
         image: axonivy/build-container:read-the-docs-2
         ports:
         - "8000:8000"
