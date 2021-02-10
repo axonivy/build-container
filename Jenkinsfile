@@ -1,4 +1,4 @@
-images = ['all', 'read-the-docs/2', 'ssh-client/1.0', 'eclipse-test/1.0', 'oracle', 'edirectory']
+images = ['all', 'read-the-docs/2', 'ssh-client/1', 'oracle', 'edirectory']
 
 pipeline {
   agent any
@@ -81,7 +81,6 @@ def build(def directory) {
   }
 }
 
-
 def buildOracleDb() {
   sh 'rm -rf docker-images'
   sh 'git clone https://github.com/oracle/docker-images'
@@ -130,13 +129,10 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename) {
   sh "docker volume prune -f"
 }
 
-def waitUntilDbIsReady(container)
-{
+def waitUntilDbIsReady(container) {
   def attempts = 0;
-  while (attempts < 180) 
-  {
-    if (isDbReady(container))
-    {
+  while (attempts < 180) {
+    if (isDbReady(container)) {
       return
     }
     attempts++
@@ -145,13 +141,11 @@ def waitUntilDbIsReady(container)
   error("Database initialization timeouted after 30 minutes")
 }
 
-def isDbReady(container)
-{
+def isDbReady(container) {
   return sh (script: "docker logs ${container.id} | grep 'DATABASE IS READY TO USE!'", returnStatus: true) == 0
 }
 
-def makeDataDirDeleteableForJenkins(dbImage, currentDir, version)
-{
+def makeDataDirDeleteableForJenkins(dbImage, currentDir, version) {
   dbImage.withRun(" -v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata --user=54321:1000", "chmod -R 777 /opt/oracle/oradata/ORASID", { container -> })
   dbImage.withRun(" -v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata --user=54321:1000", "chmod -R 777 /opt/oracle/oradata/dbconfig", { container -> })
 }
