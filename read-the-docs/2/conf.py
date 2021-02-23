@@ -114,6 +114,16 @@ replacements = {
     '|majorVersion|': parse_major_version(version),
 }
 
+rst_epilog = """
+.. |tag-ops-wizard| image:: https://img.shields.io/badge/Operations-Wizard-green.svg
+.. |tag-ops-changed| image:: https://img.shields.io/badge/Operations-Changed-yellow.svg
+.. |tag-ops-deprecated| image:: https://img.shields.io/badge/Operations-Deprecated-orange.svg
+.. |tag-ops-removed| image:: https://img.shields.io/badge/Operations-Removed-red.svg
+.. |tag-project-changed| image:: https://img.shields.io/badge/Project-Changed-yellow.svg
+.. |tag-project-deprecated| image:: https://img.shields.io/badge/Project-Deprecated-orange.svg
+.. |tag-project-removed| image:: https://img.shields.io/badge/Project-Removed-red.svg
+"""
+
 def replace_token(app, docname, source):
     result = source[0]
     for key in app.config.replacements:
