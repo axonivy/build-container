@@ -50,7 +50,7 @@ def parse_major_version(version):
 
 # project
 project = parse_project_name_from_pom()
-copyright = get_current_year() + ' AXON Ivy AG'
+copyright = get_current_year() + ' Axon Ivy AG'
 version = parse_version_from_pom()
 buildExampleVersion = parse_build_example_version()
 release = version
@@ -106,10 +106,10 @@ extlinks = {
 # token replacements
 # https://github.com/sphinx-doc/sphinx/issues/4054
 replacements = {
-    '|ivy-platform|': 'Axon.ivy Digital Business Platform',
-    '|ivy-engine|' : 'Axon.ivy Engine',
-    '|ivy-designer|': 'Axon.ivy Designer',
-    '|axon-ivy|': 'Axon.ivy',
+    '|ivy-platform|': 'Axon Ivy Platform',
+    '|ivy-engine|' : 'Axon Ivy Engine',
+    '|ivy-designer|': 'Axon Ivy Designer',
+    '|axon-ivy|': 'Axon Ivy',
     '|version|': version,
     '|majorVersion|': parse_major_version(version),
 }
