@@ -1,4 +1,4 @@
-images = ['all', 'read-the-docs/2', 'ssh-client/1', 'oracle', 'edirectory']
+images = ['all', 'read-the-docs/2', 'ssh-client/1', 'oracle', 'edirectory', 'odata-converter/4']
 
 pipeline {
   agent any
