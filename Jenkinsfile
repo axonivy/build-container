@@ -84,9 +84,8 @@ def build(def directory) {
 def buildOracleDb() {
   sh 'rm -rf docker-images'
   sh 'git clone https://github.com/oracle/docker-images'
-
-  // Do not build until https://github.com/oracle/docker-images/issues/1927
-  //buildOracleImage('http://zugpronas:5000/fbsharing/MJy3pk5S', '12.2.0.1', 'linuxx64_12201_database.zip')
+  
+  buildOracleImage('http://zugpronas:5000/fbsharing/MJy3pk5S', '12.2.0.1', 'linuxx64_12201_database.zip')
   buildOracleImage('http://zugpronas:5000/fbsharing/5JgTn1Co', '19.3.0', 'LINUX.X64_193000_db_home.zip')
 }
 
