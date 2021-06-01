@@ -31,6 +31,9 @@ body {
 .wy-side-nav-search {
   background-color: #007095;
 }
+.wy-side-nav-search > a img.logo {
+  height: 75px;
+}
 .wy-nav-side {
   background-color: #007095;
 }
