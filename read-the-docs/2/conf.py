@@ -4,12 +4,19 @@ def get_current_year():
     from datetime import datetime
     return str(datetime.today().year)
 
+# only needed for 9.2 and earlier branches - can be deleted once we drop support or when we change to link-url in these branches as well
 def parse_build_example_version():
 
     # 1. get version from environment variable
     import os
     if "BUILD_EXAMPLE_VERSION" in os.environ:
       return os.environ['BUILD_EXAMPLE_VERSION']
+    return 'master'
+
+def parse_branch_version():
+    import os
+    if "BRANCH_VERSION" in os.environ:
+      return os.environ['BRANCH_VERSION']
     return 'master'
 
 def parse_version_from_pom():
@@ -53,6 +60,7 @@ project = parse_project_name_from_pom()
 copyright = get_current_year() + ' Axon Ivy AG'
 version = parse_version_from_pom()
 buildExampleVersion = parse_build_example_version()
+branchVersion = parse_branch_version()
 release = version
 
 # general options
@@ -98,9 +106,11 @@ extlinks = {
     'public-api': ('https://developer.axonivy.com/doc/' + version + '/public-api%s', None),
     'java-api': ('https://docs.oracle.com/en/java/javase/11/docs/api%s', None),
     'portal-url': ('https://developer.axonivy.com/portal/' + version + '/doc%s', None),
+    # only needed for 9.2 and earlier branches - can be deleted once we drop support or when we change to link-url in these branches as well
     'github-build-examples': ('https://github.com/axonivy/project-build-examples/blob/' + buildExampleVersion + '/compile-test%s', None),
     'api-browser-url': ('https://developer.axonivy.com/api-browser?configUrl=https://developer.axonivy.com/doc/' + version + '/openapi/config.json&urls.primaryName=%s', None),
     'project-build-plugin-doc': ('https://axonivy.github.io/project-build-plugin/release/%s', None),
+    'link-url': ('https://developer.axonivy.com/link/%s/' + branchVersion, None),
 }
 
 # token replacements
