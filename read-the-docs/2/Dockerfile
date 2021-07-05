@@ -3,7 +3,7 @@ FROM python:3.9-alpine
 ADD requirements.txt requirements.txt
 
 RUN apk add --update --no-cache make && \
-    apk add --update --no-cache graphviz ttf-ubuntu-font-family && \
+    apk add --update --no-cache graphviz && \
     pip3 install -r requirements.txt
 
 # add custom css and javascript to the theme
