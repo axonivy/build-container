@@ -3,7 +3,8 @@ FROM python:3.9-alpine
 ADD requirements.txt requirements.txt
 
 RUN apk add --update --no-cache make && \
-    apk add --update --no-cache graphviz font-noto && \
+    apk add --update --no-cache graphviz font-bitstream-type1 ghostscript-fonts ttf-cantarell && \    
+    rm -rf /var/cache/apk/* && \
     pip3 install -r requirements.txt
 
 # add custom css and javascript to the theme
