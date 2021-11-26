@@ -70,10 +70,12 @@ pygments_style = 'tango'
 add_function_parentheses = True
 graphviz_output_format = 'png'
 
+import sphinx_rtd_theme
 extensions = [
   'sphinx.ext.extlinks',
   'sphinx.ext.graphviz',
-  'sphinxcontrib.httpdomain'
+  'sphinxcontrib.httpdomain',
+  'sphinx_rtd_theme'
 ]
 exclude_trees = []
 source_suffix = ['.rst']
