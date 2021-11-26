@@ -68,7 +68,25 @@ needs_sphinx = '3.3'
 master_doc = 'index'
 pygments_style = 'tango'
 add_function_parentheses = True
+
+# graphviz
 graphviz_output_format = 'png'
+graphviz_dot_args = [
+  # node
+  '-Nfontsize=15',
+  '-Nfontname=NotoSans',
+  '-Nfontcolor=#FFFFFF',
+  '-Ncolor=#007095',
+  '-Nshape=box',
+  '-Nstyle=filled',
+  '-Nheight=0.8',
+  '-Nfixedsize=true',
+  '-Nwidth=2',
+  # edge
+  '-Efontsize=15',
+  '-Efontname=NotoSans'
+]
+
 
 import sphinx_rtd_theme
 extensions = [
