@@ -149,6 +149,7 @@ rst_epilog = """
 .. |tag-ops-changed| image:: https://img.shields.io/badge/Operations-Changed-yellow.svg
 .. |tag-ops-deprecated| image:: https://img.shields.io/badge/Operations-Deprecated-orange.svg
 .. |tag-ops-removed| image:: https://img.shields.io/badge/Operations-Removed-red.svg
+.. |tag-project-auto-convert| image:: https://img.shields.io/badge/Project-AutoConvert-green.svg
 .. |tag-project-changed| image:: https://img.shields.io/badge/Project-Changed-yellow.svg
 .. |tag-project-deprecated| image:: https://img.shields.io/badge/Project-Deprecated-orange.svg
 .. |tag-project-removed| image:: https://img.shields.io/badge/Project-Removed-red.svg
