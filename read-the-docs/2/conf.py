@@ -93,10 +93,11 @@ extensions = [
   'sphinx.ext.extlinks',
   'sphinx.ext.graphviz',
   'sphinxcontrib.httpdomain',
-  'sphinx_rtd_theme'
+  'sphinx_rtd_theme',
+  'm2r2'
 ]
 exclude_trees = []
-source_suffix = ['.rst']
+source_suffix = ['.rst', '.md']
 source_encoding = 'utf-8-sig'
 exclude_patterns = ['**/_*.rst'] # all rst files starting with _ do we use as includes
 
