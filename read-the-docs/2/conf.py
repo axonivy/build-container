@@ -99,7 +99,7 @@ extensions = [
 exclude_trees = []
 source_suffix = ['.rst', '.md']
 source_encoding = 'utf-8-sig'
-exclude_patterns = ['**/_*.rst'] # all rst files starting with _ do we use as includes
+exclude_patterns = ['**/_*.rst', '**/_*.md'] # all rst files starting with _ do we use as includes
 
 # html options
 html_theme = 'sphinx_rtd_theme'
