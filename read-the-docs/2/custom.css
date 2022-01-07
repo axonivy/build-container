@@ -179,3 +179,9 @@ h3{
 .rst-content .line-block {
   margin-bottom: 0px;
 }
+
+/* improve spacing (before and after) of header elements */
+.rst-content .toctree-wrapper > p.caption, .rst-content h2, .rst-content h3, .rst-content h4, .rst-content h5, .rst-content h6 {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
