@@ -6,11 +6,11 @@
 version: 2
 updates:
   - package-ecosystem: "docker" # See documentation for possible values
-    directory: "/" # Location of package manifests
+    directory: "ssh-client/1" # Location of package manifests
     schedule:
       interval: "daily"
 
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "read-the-docs/2"
     schedule:
       interval: "daily"
