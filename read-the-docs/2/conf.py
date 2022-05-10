@@ -26,7 +26,7 @@ def parse_version_from_pom():
     if "VERSION" in os.environ:
       return os.environ['VERSION']
 
-    # 2. get version from pom.xml <VERSION>    
+    # 2. get version from pom.xml <VERSION>
     pomFile = os.environ['BASEDIR'] + '/pom.xml'
     if os.path.isfile(pomFile):
       from xml.etree import ElementTree as et
@@ -35,7 +35,7 @@ def parse_version_from_pom():
       ns = {"mvn":"http://maven.apache.org/POM/4.0.0"}
       element = tree.getroot().find('./mvn:version', ns)
       if element is not None:
-        return element.text      
+        return element.text
 
     # 3. fallback to dev version
     return 'dev'
@@ -43,7 +43,7 @@ def parse_version_from_pom():
 def parse_project_name_from_pom():
     import os
     from xml.etree import ElementTree as et
-    tree = et.ElementTree()    
+    tree = et.ElementTree()
     tree.parse(os.environ['BASEDIR'] + '/pom.xml')
     ns = {"mvn":"http://maven.apache.org/POM/4.0.0"}
     name = tree.getroot().find('./mvn:name', ns).text
@@ -134,16 +134,18 @@ extlinks = {
     'link-url': ('https://developer.axonivy.com/link/%s/' + branchVersion, None),
 }
 
-# token replacements
-# https://github.com/sphinx-doc/sphinx/issues/4054
-replacements = {
-    '|ivy-platform|': 'Axon Ivy Platform',
-    '|ivy-engine|' : 'Axon Ivy Engine',
-    '|ivy-designer|': 'Axon Ivy Designer',
-    '|axon-ivy|': 'Axon Ivy',
-    '|version|': version,
-    '|majorVersion|': parse_major_version(version),
-}
+# see https://stackoverflow.com/questions/36320992/sphinx-documentation-variables for tricky format.
+rst_prolog = """
+.. |ivy-platform| replace:: Axon Ivy Platform
+.. |ivy-engine| replace:: Axon Ivy Engine
+.. |ivy-designer| replace:: Axon Ivy Designer
+.. |axon-ivy| replace:: Axon Ivy
+.. |version| replace:: {0}
+.. |majorVersion| replace:: {1}
+""".format(
+version,
+parse_major_version(version)
+)
 
 rst_epilog = """
 .. |tag-ops-wizard| image:: https://img.shields.io/badge/Operations-Wizard-green.svg
@@ -155,13 +157,3 @@ rst_epilog = """
 .. |tag-project-deprecated| image:: https://img.shields.io/badge/Project-Deprecated-orange.svg
 .. |tag-project-removed| image:: https://img.shields.io/badge/Project-Removed-red.svg
 """
-
-def replace_token(app, docname, source):
-    result = source[0]
-    for key in app.config.replacements:
-        result = result.replace(key, app.config.replacements[key])
-    source[0] = result
-
-def setup(app):
-    app.add_config_value('replacements', {}, True)
-    app.connect('source-read', replace_token)
