@@ -70,11 +70,11 @@ pygments_style = 'tango'
 add_function_parentheses = True
 
 # graphviz
-graphviz_output_format = 'png'
+graphviz_output_format = 'svg'
 graphviz_dot_args = [
   # node
   '-Nfontsize=15',
-  '-Nfontname=NotoSans',
+  '-Nfontname=Roboto,Helvetica Neue,Arial,sans-serif',
   '-Nfontcolor=#FFFFFF',
   '-Ncolor=#007095',
   '-Nshape=box',
@@ -84,7 +84,7 @@ graphviz_dot_args = [
   '-Nwidth=2',
   # edge
   '-Efontsize=15',
-  '-Efontname=NotoSans'
+  '-Efontname=Roboto,Helvetica Neue,Arial,sans-serif'
 ]
 
 
