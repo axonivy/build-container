@@ -3,7 +3,7 @@ FROM python:alpine3.15
 ADD requirements.txt requirements.txt
 
 RUN apk add --update --no-cache make && \
-    apk add --update --no-cache graphviz font-noto && \    
+    apk add --update --no-cache graphviz && \    
     rm -rf /var/cache/apk/* && \
     # pyhton dependencies
     pip3 install -r requirements.txt
