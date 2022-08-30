@@ -53,7 +53,7 @@ def runBuild(def image) {
 }
 
 def buildEdirectory(){
-  sh 'wget http://zugpronas:5000/fbsharing/ofPMJOCK -O /tmp/edirectory.tar.gz'
+  sh 'wget https://build.nas.ivyteam.io/edirectory/edirectory.tar.gz -O /tmp/edirectory.tar.gz'
   sh 'tar -xvf /tmp/edirectory.tar.gz -C /tmp'
   sh 'docker load --input /tmp/edir920.tar'
   def name = "edirectory:9.2.0"
@@ -85,8 +85,8 @@ def buildOracleDb() {
   sh 'rm -rf docker-images'
   sh 'git clone https://github.com/oracle/docker-images'
   
-  buildOracleImage('http://zugpronas:5000/fbsharing/MJy3pk5S', '12.2.0.1', 'linuxx64_12201_database.zip')
-  buildOracleImage('http://zugpronas:5000/fbsharing/5JgTn1Co', '19.3.0', 'LINUX.X64_193000_db_home.zip')
+  buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_12-2-0-1_database.zip', '12.2.0.1', 'linuxx64_12201_database.zip')
+  buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_19-3-0-0_db_home.zip', '19.3.0', 'LINUX.X64_193000_db_home.zip')
 }
 
 def buildOracleImage(String oracleBinaryUrl, String version, String filename) {
