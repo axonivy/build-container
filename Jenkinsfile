@@ -87,6 +87,7 @@ def buildOracleDb() {
   
   buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_12-2-0-1_database.zip', '12.2.0.1', 'linuxx64_12201_database.zip')
   buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_19-3-0-0_db_home.zip', '19.3.0', 'LINUX.X64_193000_db_home.zip')
+  buildOracleImage('https://build.nas.ivyteam.io/oracle/LINUX.X64_213000_db_home.zip', '21.3.0', 'LINUX.X64_213000_db_home.zip')
 }
 
 def buildOracleImage(String oracleBinaryUrl, String version, String filename) {
