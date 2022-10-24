@@ -49,12 +49,6 @@ def parse_project_name_from_pom():
     name = tree.getroot().find('./mvn:name', ns).text
     return name
 
-def parse_major_version(version):
-    major = version.split(".")[0]
-    if major.isnumeric():
-        return major
-    return version
-
 # project
 project = parse_project_name_from_pom()
 copyright = get_current_year() + ' Axon Ivy AG'
@@ -133,19 +127,6 @@ extlinks = {
     'project-build-plugin-doc': ('https://axonivy.github.io/project-build-plugin/release/%s', None),
     'link-url': ('https://developer.axonivy.com/link/%s/' + branchVersion, None),
 }
-
-# see https://stackoverflow.com/questions/36320992/sphinx-documentation-variables for tricky format.
-rst_prolog = """
-.. |ivy-platform| replace:: Axon Ivy Platform
-.. |ivy-engine| replace:: Axon Ivy Engine
-.. |ivy-designer| replace:: Axon Ivy Designer
-.. |axon-ivy| replace:: Axon Ivy
-.. |version| replace:: {0}
-.. |majorVersion| replace:: {1}
-""".format(
-version,
-parse_major_version(version)
-)
 
 rst_epilog = """
 .. |tag-ops-wizard| image:: https://img.shields.io/badge/Operations-Wizard-green.svg
