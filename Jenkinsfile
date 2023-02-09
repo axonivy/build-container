@@ -1,4 +1,4 @@
-images = ['all', 'oracle', 'edirectory', 'odata-converter/4', 'odata-converter/2']
+images = ['oracle', 'edirectory']
 
 pipeline {
   agent any
@@ -20,13 +20,7 @@ pipeline {
       steps {
         script {
           def image = params.image;
-          if (image == 'all') {
-            images.each {
-              runBuild(it);
-            }
-          } else {
-            runBuild(image)
-          }
+          runBuild(image)          
         }
       }
     }
@@ -41,14 +35,8 @@ pipeline {
 def runBuild(def image) {
   if (image == 'oracle') {
     buildOracleDb()
-  } else if (image == 'all') {
-    return
   } else if (image == 'edirectory'){
     buildEdirectory()
-  } else {
-    docker.withRegistry('', 'docker.io') {
-      build(image)
-    }
   }
 }
 
@@ -63,21 +51,6 @@ def buildEdirectory(){
       image.push()
     }
     sh "docker image rm ${name}"
-  }
-}
-
-def build(def directory) {
-  def tag = directory.replace("/", "-")
-  def name = "axonivy/build-container:${tag}"
-  echo "Building container tag $tag in directory $directory"
-  dir (directory) {
-    docker.withRegistry('', 'docker.io') {
-      def image = docker.build(name)
-      if (env.BRANCH_NAME == 'master') {
-        image.push()
-      }
-      sh "docker image rm ${name}"
-    }
   }
 }
 

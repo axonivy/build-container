@@ -12,3 +12,5 @@ def image(def directory) {
     sh "docker image rm ${name}"
   }
 }
+
+return this
