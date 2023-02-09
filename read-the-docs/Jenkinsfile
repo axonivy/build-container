@@ -13,7 +13,8 @@ pipeline {
     stage('build') {
       steps {
         script {
-          build.build("read-the-docs/2")
+          def build = load 'build.groovy'
+          build.image("read-the-docs/2")
         }
       }
     }

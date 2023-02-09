@@ -14,7 +14,7 @@ pipeline {
       steps {
         script {
           def build = load 'build.groovy'
-          build.build("ssh-client/1")
+          build.image("ssh-client/1")
         }
       }
     }

@@ -1,4 +1,4 @@
-def build(def directory) {
+def image(def directory) {
   def tag = directory.replace("/", "-")
   def name = "axonivy/build-container:${tag}"
   echo "Building container tag $tag in directory $directory"
