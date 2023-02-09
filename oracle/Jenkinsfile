@@ -1,14 +1,8 @@
-images = ['all', 'read-the-docs/2', 'ssh-client/1', 'oracle', 'edirectory', 'odata-converter/4', 'odata-converter/2']
-
 pipeline {
   agent any
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '50'))
-  }
-  
-  parameters {
-    choice name: 'image', choices: images
   }
 
   triggers {
@@ -19,75 +13,22 @@ pipeline {
     stage('build') {
       steps {
         script {
-          def image = params.image;
-          if (image == 'all') {
-            images.each {
-              runBuild(it);
-            }
-          } else {
-            runBuild(image)
-          }
+          sh 'rm -rf docker-images'
+          sh 'git clone https://github.com/oracle/docker-images'
+          
+          buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_12-2-0-1_database.zip', '12.2.0.1', 'linuxx64_12201_database.zip')
+          buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_19-3-0-0_db_home.zip', '19.3.0', 'LINUX.X64_193000_db_home.zip')
+          buildOracleImage('https://build.nas.ivyteam.io/oracle/LINUX.X64_213000_db_home.zip', '21.3.0', 'LINUX.X64_213000_db_home.zip')
         }
       }
     }
   }
+
   post {
     always {
       cleanWs()
     }
   }
-}
-
-def runBuild(def image) {
-  if (image == 'oracle') {
-    buildOracleDb()
-  } else if (image == 'all') {
-    return
-  } else if (image == 'edirectory'){
-    buildEdirectory()
-  } else {
-    docker.withRegistry('', 'docker.io') {
-      build(image)
-    }
-  }
-}
-
-def buildEdirectory(){
-  sh 'wget https://build.nas.ivyteam.io/edirectory/edirectory.tar.gz -O /tmp/edirectory.tar.gz'
-  sh 'tar -xvf /tmp/edirectory.tar.gz -C /tmp'
-  sh 'docker load --input /tmp/edir920.tar'
-  def name = "edirectory:9.2.0"
-  def image = docker.image(name)
-  docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
-    if (env.BRANCH_NAME == 'master') {
-      image.push()
-    }
-    sh "docker image rm ${name}"
-  }
-}
-
-def build(def directory) {
-  def tag = directory.replace("/", "-")
-  def name = "axonivy/build-container:${tag}"
-  echo "Building container tag $tag in directory $directory"
-  dir (directory) {
-    docker.withRegistry('', 'docker.io') {
-      def image = docker.build(name)
-      if (env.BRANCH_NAME == 'master') {
-        image.push()
-      }
-      sh "docker image rm ${name}"
-    }
-  }
-}
-
-def buildOracleDb() {
-  sh 'rm -rf docker-images'
-  sh 'git clone https://github.com/oracle/docker-images'
-  
-  buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_12-2-0-1_database.zip', '12.2.0.1', 'linuxx64_12201_database.zip')
-  buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_19-3-0-0_db_home.zip', '19.3.0', 'LINUX.X64_193000_db_home.zip')
-  buildOracleImage('https://build.nas.ivyteam.io/oracle/LINUX.X64_213000_db_home.zip', '21.3.0', 'LINUX.X64_213000_db_home.zip')
 }
 
 def buildOracleImage(String oracleBinaryUrl, String version, String filename) {

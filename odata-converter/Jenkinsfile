@@ -1,0 +1,23 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '50'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  stages {
+    stage('build') {
+      steps {
+        script {
+          def build = load 'build.groovy'          
+          build.image("odata-converter/2")
+          build.image("odata-converter/4")
+        }
+      }
+    }
+  }
+}
