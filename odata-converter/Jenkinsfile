@@ -13,8 +13,9 @@ pipeline {
     stage('build') {
       steps {
         script {
-          def build = load 'build.groovy'
-          build.image("read-the-docs/2")
+          def build = load 'build.groovy'          
+          build.image("odata-converter/2")
+          build.image("odata-converter/4")
         }
       }
     }
