@@ -13,24 +13,9 @@ pipeline {
     stage('build') {
       steps {
         script {
-          docker.withRegistry('', 'docker.io') {
-            build("read-the-docs/2")
-          }
+          build.build("read-the-docs/2")
         }
       }
     }
-  }
-}
-
-def build(def directory) {
-  def tag = directory.replace("/", "-")
-  def name = "axonivy/build-container:${tag}"
-  echo "Building container tag $tag in directory $directory"
-  dir (directory) {
-    def image = docker.build(name)
-    if (env.BRANCH_NAME == 'master') {
-      image.push()
-    }
-    sh "docker image rm ${name}"
   }
 }

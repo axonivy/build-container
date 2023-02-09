@@ -13,24 +13,10 @@ pipeline {
     stage('build') {
       steps {
         script {
-          docker.withRegistry('', 'docker.io') {
-            build("ssh-client/1")
-          }
+          def build = load 'build.groovy'
+          build.build("ssh-client/1")
         }
       }
     }
-  }
-}
-
-def build(def directory) {
-  def tag = directory.replace("/", "-")
-  def name = "axonivy/build-container:${tag}"
-  echo "Building container tag $tag in directory $directory"
-  dir (directory) {
-    def image = docker.build(name)
-    if (env.BRANCH_NAME == 'master') {
-      image.push()
-    }
-    sh "docker image rm ${name}"
   }
 }
