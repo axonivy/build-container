@@ -40,7 +40,7 @@ def buildOracleImage(String oracleBinaryUrl, String version, String filename) {
 
     // temporary fix buildContainerImage.sh
     // https://github.com/oracle/docker-images/issues/2556
-    sh "sed -i 's/\.5s/\.8s/g' buildContainerImage.sh"
+    sh "sed -i 's/\\.5s/\\.8s/g' buildContainerImage.sh"
 
     // -v = Version, -s = Standard Edition
     sh "./buildContainerImage.sh -v $version -s"
