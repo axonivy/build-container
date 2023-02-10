@@ -1,0 +1,97 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '50'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  stages {
+    stage('build') {
+      steps {
+        script {
+          sh 'rm -rf docker-images'
+          sh 'git clone https://github.com/oracle/docker-images'
+          
+          buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_12-2-0-1_database.zip', '12.2.0.1', 'linuxx64_12201_database.zip')
+          buildOracleImage('https://build.nas.ivyteam.io/oracle/linux_x64_19-3-0-0_db_home.zip', '19.3.0', 'LINUX.X64_193000_db_home.zip')
+          buildOracleImage('https://build.nas.ivyteam.io/oracle/LINUX.X64_213000_db_home.zip', '21.3.0', 'LINUX.X64_213000_db_home.zip')
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      cleanWs()
+    }
+  }
+}
+
+def buildOracleImage(String oracleBinaryUrl, String version, String filename) {
+  def baseName = "oracle/database:${version}-se2"
+  def baseImage
+  dir ('docker-images/OracleDatabase/SingleInstance/dockerfiles') {
+    // download oracle binary
+    sh "curl -L $oracleBinaryUrl -o $version/$filename"
+
+    // temporary fix buildContainerImage.sh
+    // https://github.com/oracle/docker-images/issues/2556
+    sh "sed -i 's/\\.5s/\\.8s/g' buildContainerImage.sh"
+
+    // -v = Version, -s = Standard Edition
+    sh "./buildContainerImage.sh -v $version -s"
+
+    baseImage = docker.image(baseName)
+    docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
+      if (env.BRANCH_NAME == 'master') {
+        baseImage.push()
+      }
+    }
+  }
+  def currentDir = pwd()
+  sh "mkdir oracle/${version}/data"
+  sh "chmod 777 oracle/${version}/data"
+  
+  baseImage.withRun("-v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata -v ${currentDir}/oracle/${version}/dbca.rsp.tmpl:/opt/oracle/dbca.rsp.tmpl --user=54321:1000 "+'-e "ORACLE_SID=ORASID" -e "ORACLE_PDB=ORAPDB" -e "ORACLE_CHARACTERSET=AL32UTF8" -e "ORACLE_PWD=nimda"') { container -> 
+    waitUntilDbIsReady(container)
+  }
+  
+  def dbName = "oracle/database-orapdb:${version}-se2"
+  def dbImage = docker.build(dbName, "oracle/${version}")
+  docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
+    if (env.BRANCH_NAME == 'master') {
+      dbImage.push()
+    }
+  }
+
+  makeDataDirDeleteableForJenkins(dbImage, currentDir, version)
+
+  sh "docker image rm ${baseName}"
+  sh "docker image rm ${dbName}"
+  sh "docker volume prune -f"
+}
+
+def waitUntilDbIsReady(container) {
+  def attempts = 0;
+  while (attempts < 180) {
+    if (isDbReady(container)) {
+      return
+    }
+    attempts++
+    sleep 10
+  }
+  error("Database initialization timeouted after 30 minutes")
+}
+
+def isDbReady(container) {
+  return sh (script: "docker logs ${container.id} | grep 'DATABASE IS READY TO USE!'", returnStatus: true) == 0
+}
+
+def makeDataDirDeleteableForJenkins(dbImage, currentDir, version) {
+  dbImage.withRun(" -v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata --user=54321:1000", "chmod -R 777 /opt/oracle/oradata/ORASID", { container -> })
+  dbImage.withRun(" -v ${currentDir}/oracle/${version}/data:/opt/oracle/oradata --user=54321:1000", "chmod -R 777 /opt/oracle/oradata/dbconfig", { container -> })
+}
