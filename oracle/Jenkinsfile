@@ -9,6 +9,10 @@ pipeline {
     cron '@midnight'
   }
 
+  environment {
+    DOCKER_BUILDKIT='0'
+  }
+
   stages {
     stage('build') {
       steps {
