@@ -10,6 +10,9 @@ pipeline {
   }
 
   environment {
+    // in the new docker version 23.0 the Buildx and BuildKit are used as the default builder
+    // this breakes our docker image creation so we use the parameter below to use the default builder used in docker 20.x
+    // https://docs.docker.com/engine/release-notes/23.0/
     DOCKER_BUILDKIT='0'
   }
 
