@@ -144,6 +144,13 @@ h3{
   background-color: #007095;
 }
 
+.rst-content .versionmodified {
+  background: rgba(255, 215, 0, 0.5);
+  padding: 0.1rem;
+  border-radius: 0.3rem;
+  margin-right: 0.2rem;
+}
+
 .wy-menu > ul > .toctree-l1 {
   font-weight: 700;
 }
