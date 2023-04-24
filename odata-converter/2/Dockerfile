@@ -1,5 +1,7 @@
 FROM node:15-stretch
 
+RUN echo "deb http://archive.debian.org/debian stretch stretch-security main contrib non-free" > /etc/apt/sources.list
+
 RUN apt-get update && \
     apt-get install -y openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
