@@ -88,7 +88,8 @@ extensions = [
   'sphinx.ext.graphviz',
   'sphinxcontrib.httpdomain',
   'sphinx_rtd_theme',
-  'm2r2'
+  'm2r2',
+  'sphinx_design'
 ]
 exclude_trees = []
 source_suffix = ['.rst', '.md']
