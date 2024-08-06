@@ -1,4 +1,4 @@
-FROM node:15-stretch
+FROM node:16-stretch
 
 RUN echo "deb http://archive.debian.org/debian stretch stretch-security main contrib non-free" > /etc/apt/sources.list
 
