@@ -46,9 +46,9 @@ def buildOracleImage() {
 
     baseImage = docker.image(baseImageName)
     docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
-     //if (env.BRANCH_NAME == 'master') {
+      if (env.BRANCH_NAME == 'master') {
         baseImage.push()
-     // }
+      }
     }
   }
 
@@ -61,9 +61,9 @@ def buildOracleImage() {
 
   def dbImage = docker.image(imageName)
   docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
-    //if (env.BRANCH_NAME == 'master') {
+    if (env.BRANCH_NAME == 'master') {
       dbImage.push()
-   // }
+    }
   }
 
   sh "docker image rm ${baseImageName}"
