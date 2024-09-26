@@ -1,0 +1,91 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '50'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  environment {
+    // in the new docker version 23.0 the Buildx and BuildKit are used as the default builder
+    // this breakes our docker image creation so we use the parameter below to use the default builder used in docker 20.x
+    // https://docs.docker.com/engine/release-notes/23.0/
+    DOCKER_BUILDKIT='0'
+  }
+
+  stages {
+    stage('build') {
+      steps {
+        script {          
+          buildOracleImage()
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      cleanWs()
+    }
+  }
+}
+
+def buildOracleImage() {
+  sh 'rm -rf docker-images'
+  sh 'git clone https://github.com/oracle/docker-images'
+
+  def version = '19.3.0'
+  def baseImageName = "oracle/database:${version}-se2"
+  def baseImage
+  dir ('docker-images/OracleDatabase/SingleInstance/dockerfiles') {
+    // download oracle binary
+    sh "curl -L https://build.nas.ivyteam.io/oracle/linux_x64_19-3-0-0_db_home.zip -o $version/LINUX.X64_193000_db_home.zip"
+
+    // -v = Version, -s = Standard Edition
+    sh "./buildContainerImage.sh -v $version -s"
+
+    baseImage = docker.image(baseImageName)
+    docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
+      if (env.BRANCH_NAME == 'master') {
+        baseImage.push()
+      }
+    }
+  }
+
+  def imageName = "oracle/database-orapdb:${version}-se2"
+  baseImage.withRun('-e "ORACLE_SID=ORASID" -e "ORACLE_PDB=ORAPDB" -e "ORACLE_CHARACTERSET=AL32UTF8" -e "ORACLE_PWD=nimda"') { container -> 
+    sh "docker cp oracle-19.3.0/dbca.rsp.tmpl ${container.id}:/opt/oracle/dbca.rsp.tmpl"
+    waitUntilDbIsReady(container)
+    sh "docker commit ${container.id} ${imageName}"
+  }
+
+  def dbImage = docker.image(imageName)
+  docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
+    if (env.BRANCH_NAME == 'master') {
+      dbImage.push()
+    }
+  }
+
+  sh "docker image rm ${baseImageName}"
+  sh "docker image rm ${imageName}"
+  sh "docker volume prune -f"
+}
+
+def waitUntilDbIsReady(container) {
+  def attempts = 0;
+  while (attempts < 180) {
+    if (isDbReady(container)) {
+      return
+    }
+    attempts++
+    sleep 10
+  }
+  error("Database initialization timeouted after 30 minutes")
+}
+
+def isDbReady(container) {
+  return sh (script: "docker logs ${container.id} | grep 'DATABASE IS READY TO USE!'", returnStatus: true) == 0
+}
