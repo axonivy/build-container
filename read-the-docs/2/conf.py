@@ -88,7 +88,7 @@ extensions = [
   'sphinx.ext.graphviz',
   'sphinxcontrib.httpdomain',
   'sphinx_rtd_theme',
-  'myst_parser',
+  'm2r2',
   'sphinx_design'
 ]
 exclude_trees = []
