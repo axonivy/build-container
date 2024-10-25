@@ -17,15 +17,14 @@ available.
 So you need to provide this as volume into the container somewhere.
 And define `BASEDIR` as parameter where this place is in the container.
 
-    version: '3.3'
     services:
       builder:
         image: axonivy/build-container:read-the-docs-2
         ports:
-        - "8000:8000"
+        - 8000:8000
         volumes:
-        - "./..:/ivy-core"     
-        entrypoint: "make livehtml BASEDIR=/ivy-core/doc"
+        - ./..:/ivy-core
+        entrypoint: make livehtml BASEDIR=/ivy-core/doc
 
 
 ## build pipeline
