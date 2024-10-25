@@ -58,7 +58,7 @@ branchVersion = parse_branch_version()
 release = version
 
 # general options
-needs_sphinx = '3.3'
+needs_sphinx = '8.0'
 master_doc = 'index'
 pygments_style = 'tango'
 add_function_parentheses = True
@@ -88,7 +88,7 @@ extensions = [
   'sphinx.ext.graphviz',
   'sphinxcontrib.httpdomain',
   'sphinx_rtd_theme',
-  'm2r2',
+  'myst_parser',
   'sphinx_design'
 ]
 exclude_trees = []
