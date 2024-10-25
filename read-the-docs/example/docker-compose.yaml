@@ -1,9 +1,0 @@
-version: '3.3'
-services:
-  builder:
-    image: axonivy/build-container:read-the-docs-1.3
-    ports:
-     - "8000:8000"
-    volumes:
-     - "./:/doc"
-    entrypoint: "make livehtml BASEDIR=/doc"
