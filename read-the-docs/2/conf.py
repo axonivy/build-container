@@ -19,26 +19,36 @@ def parse_branch_version():
       return os.environ['BRANCH_VERSION']
     return 'master'
 
-def parse_version_from_pom():
-
+def eval_version():
     # 1. get version from environment variable
     import os
     if "VERSION" in os.environ:
       return os.environ['VERSION']
 
     # 2. get version from pom.xml <VERSION>
+    pomVersion = parse_version_from_pom()
+    if pomVersion is not None:
+      release = pomVersion.removesuffix('-SNAPSHOT').rsplit('.',1)[0]
+      return release
+
+    # 3. fallback to dev version
+    return 'dev'
+
+def parse_version_from_pom():
+    import os
     pomFile = os.environ['BASEDIR'] + '/pom.xml'
     if os.path.isfile(pomFile):
       from xml.etree import ElementTree as et
       tree = et.ElementTree()
       tree.parse(pomFile)
       ns = {"mvn":"http://maven.apache.org/POM/4.0.0"}
-      element = tree.getroot().find('./mvn:version', ns)
-      if element is not None:
-        return element.text
-
-    # 3. fallback to dev version
-    return 'dev'
+      version = tree.getroot().find('./mvn:version', ns)
+      if version is not None:
+        return version.text
+      parentVersion = tree.getroot().find('./mvn:parent/mvn:version', ns)
+      if parentVersion is not None:
+        return parentVersion.text
+    return None
 
 def parse_project_name_from_pom():
     import os
@@ -52,10 +62,14 @@ def parse_project_name_from_pom():
 # project
 project = parse_project_name_from_pom()
 copyright = get_current_year() + ' Axon Ivy AG'
-version = parse_version_from_pom()
+version = eval_version()
 buildExampleVersion = parse_build_example_version()
 branchVersion = parse_branch_version()
 release = version
+
+import sys
+sys.stdout.write("version: " +version+"\n")
+sys.stdout.write("version_branch: " +branchVersion+"\n")
 
 # general options
 needs_sphinx = '8.0'
