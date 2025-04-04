@@ -49,6 +49,15 @@ def parse_project_name_from_pom():
     name = tree.getroot().find('./mvn:name', ns).text
     return name
 
+def localeDir():
+    # 1. get version from environment variable
+    import os
+    if "LOCALEDIR" in os.environ:
+      return os.environ['LOCALEDIR']
+
+    # 2. fallback best practice
+    return 'locales/'
+
 # project
 project = parse_project_name_from_pom()
 copyright = get_current_year() + ' Axon Ivy AG'
@@ -114,6 +123,10 @@ html_js_files = [
 ]
 html_show_sphinx = False
 html_favicon = '/doc-build/images/favicon.png'
+
+# locales
+locale_dirs = [localeDir()]
+gettext_compact = False
 
 # base urls
 # https://stackoverflow.com/questions/1227037/substitutions-inside-links-in-rest-sphinx
