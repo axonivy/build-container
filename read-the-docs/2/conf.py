@@ -126,7 +126,7 @@ html_favicon = '/doc-build/images/favicon.png'
 
 # locales
 locale_dirs = [localeDir()]
-gettext_compact = False
+gettext_compact = True
 
 # base urls
 # https://stackoverflow.com/questions/1227037/substitutions-inside-links-in-rest-sphinx
