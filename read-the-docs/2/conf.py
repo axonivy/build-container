@@ -60,13 +60,22 @@ def parse_project_name_from_pom():
     return name
 
 def localeDir():
-    # 1. get version from environment variable
+    # 1. get from environment variable
     import os
     if "LOCALEDIR" in os.environ:
       return os.environ['LOCALEDIR']
 
     # 2. fallback best practice
     return 'locales/'
+
+def gettextCompact():
+    # 1. get from environment variable
+    import os
+    if "GETTEXT_COMPACT" in os.environ:
+      return os.environ['GETTEXT_COMPACT']
+
+    # 2. fallback best practice
+    return True
 
 # project
 project = parse_project_name_from_pom()
@@ -140,7 +149,7 @@ html_favicon = '/doc-build/images/favicon.png'
 
 # locales
 locale_dirs = [localeDir()]
-gettext_compact = True
+gettext_compact = gettextCompact()
 
 # base urls
 # https://stackoverflow.com/questions/1227037/substitutions-inside-links-in-rest-sphinx
