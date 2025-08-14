@@ -1,0 +1,33 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '50'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  stages {
+    stage('build') {
+      steps {
+        script {
+          sh 'git clone https://github.com/DeepLcom/deepl-mock.git DeepLcom/deepl-mock'
+          deepLMockImage = docker.build('deepl-mock:latest', './DeepLcom/deepl-mock')
+          if (env.BRANCH_NAME == 'master') {
+            docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
+              deepLMockImage.push()
+            }
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      cleanWs()
+    }
+  }
+}
