@@ -19,6 +19,8 @@ ADD Makefile conf.py /doc-build/
 # add images
 ADD axonivylogo.svg favicon.png /doc-build/images/
 
+ADD _templates/versions.html /doc-build/_templates/
+
 # for build environment
 RUN chown -R 1000:0 /doc-build
 USER 1000:0
