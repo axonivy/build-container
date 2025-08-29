@@ -1,37 +1,56 @@
-<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions" onload="loadVersionsAndLanguages()">
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
 
-  <span class="rst-current-version" data-toggle="rst-current-version">
+  <span class="rst-current-version" data-toggle="rst-current-version" onclick="loadVersionsAndLanguages()">
     Version: {{ current_version }} ({{ current_language }})
     <span class="fa fa-caret-down"></span>
   </span>
   <div class="rst-other-versions">
     <dl id="languages">
-      <dt>Languages</dt>
     </dl>
     <dl id="versions">
-      <dt>Versions</dt>
     </dl>
     <br>
     </dl>
-    <button onclick="loadVersionsAndLanguages()">Load</button>
     <div id="error" class="wy-text-danger">      
     </div>
     <script>
-      $(document).ready(function() {
-        loadVersionsAndLanguages();
-      });
-      
       function loadVersionsAndLanguages() {
+        const languages = $("#languages");
+        if (languages.children().length > 0) {
+          return;
+        }
+        languages.text("Loading ...");
         $.ajax({ 
           type: "GET",
           dataType: "json",
-          url: "https://dev.axonivy.com/api/availableDocs/{{ current_project }}/{{ current_version}}/{{ current_language }}",
-            success: function(data) {       
-              alert(data);               
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-              $("#error").text("Cannot load version and language information: "+thrownError);
+          timeout: 60000,
+          url: "/api/availableDocs/{{ current_project }}/{{ current_version}}/{{ current_language }}",
+          success: function(data) {       
+            const languages = $("#languages");
+            languages.text("");
+            languages.append("<dt>Languages</dt>");
+            for (const lang of data.languages) {
+              languages.append(`<dd><a href=\"${lang.url}\">${lang.language}</a></dd>`);
             }
+            const versions = $("#versions");
+            versions.text("");
+            versions.append("<dt>Versions</dt>");
+            for (const version of data.versions) {
+              versions.append(`<dd><a href=\"${version.url}\">${version.version}</a></dd>`);
+            }
+            $("#error").text("Cannot load version and language information: " + thrownError);
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            const languages = $("#languages");
+            languages.text("");
+            languages.append("<dt>Languages</dt>");
+            languages.append("<dd><a href=\"#\">{{ current_language }}</a></dd>");
+            const versions = $("#versions");
+            versions.text("");
+            versions.append("<dt>Versions</dt>");
+            versions.append("<dd><a href=\"#\">{{ current_version }}</a></dd>");
+            $("#error").text("Cannot load version and language information: " + thrownError);
+          }
         });
       }
     </script>
