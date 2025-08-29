@@ -14,6 +14,21 @@
     <div id="error" class="wy-text-danger">      
     </div>
     <script>
+      function setContent(data) {
+        const languages = $("#languages");
+        languages.text("");
+        languages.append("<dt>Languages</dt>");
+        for (const lang of data.languages) {
+          languages.append(`<dd><a href=\"${lang.url}\">${lang.language}</a></dd>`);
+        }
+        const versions = $("#versions");
+        versions.text("");
+        versions.append("<dt>Versions</dt>");
+        for (const version of data.versions) {
+          versions.append(`<dd><a href=\"${version.url}\">${version.version}</a></dd>`);
+        }
+      }
+      
       function loadVersionsAndLanguages() {
         const languages = $("#languages");
         if (languages.children().length > 0) {
@@ -25,30 +40,18 @@
           dataType: "json",
           timeout: 60000,
           url: "/api/availableDocs/{{ current_project }}/{{ current_version}}/{{ current_language }}",
-          success: function(data) {       
-            const languages = $("#languages");
-            languages.text("");
-            languages.append("<dt>Languages</dt>");
-            for (const lang of data.languages) {
-              languages.append(`<dd><a href=\"${lang.url}\">${lang.language}</a></dd>`);
-            }
-            const versions = $("#versions");
-            versions.text("");
-            versions.append("<dt>Versions</dt>");
-            for (const version of data.versions) {
-              versions.append(`<dd><a href=\"${version.url}\">${version.version}</a></dd>`);
-            }
-            $("#error").text("Cannot load version and language information: " + thrownError);
+          success: function(data) {
+            setContent(data);       
           },
           error: function(xhr, ajaxOptions, thrownError) {
-            const languages = $("#languages");
-            languages.text("");
-            languages.append("<dt>Languages</dt>");
-            languages.append("<dd><a href=\"#\">{{ current_language }}</a></dd>");
-            const versions = $("#versions");
-            versions.text("");
-            versions.append("<dt>Versions</dt>");
-            versions.append("<dd><a href=\"#\">{{ current_version }}</a></dd>");
+            setContent({
+              "languages": [{
+                  "language": "{{ current_language }}",
+                  "url": "#" }],
+              "versions": [{
+                  "version": "{{ current_language }}",
+                  "url": "#"
+                }] });
             $("#error").text("Cannot load version and language information: " + thrownError);
           }
         });
