@@ -1,0 +1,39 @@
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions" onload="loadVersionsAndLanguages()">
+
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    Version: {{ current_version }} ({{ current_language }})
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl id="languages">
+      <dt>Languages</dt>
+    </dl>
+    <dl id="versions">
+      <dt>Versions</dt>
+    </dl>
+    <br>
+    </dl>
+    <button onclick="loadVersionsAndLanguages()">Load</button>
+    <div id="error" class="wy-text-danger">      
+    </div>
+    <script>
+      $(document).ready(function() {
+        loadVersionsAndLanguages();
+      });
+      
+      function loadVersionsAndLanguages() {
+        $.ajax({ 
+          type: "GET",
+          dataType: "json",
+          url: "https://dev.axonivy.com/api/availableDocs/{{ current_project }}/{{ current_version}}/{{ current_language }}",
+            success: function(data) {       
+              alert(data);               
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+              $("#error").text("Cannot load version and language information: "+thrownError);
+            }
+        });
+      }
+    </script>
+  </div>
+</div>
