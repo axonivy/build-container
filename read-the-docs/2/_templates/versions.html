@@ -17,24 +17,43 @@
       const langTitle = $("<dt>Languages</dt>");
       languages.append(langTitle);
       for (const lang of data.languages) {
-        addLink(languages, lang.language, lang.url);
+        addLink(languages, getLanguageEmoji(lang.language) + " " + lang.language, getLanguageDisplayText(lang.language), lang.url);
       }
       const versions = $("#versions");
       versions.text("");
       const versionTitle = $("<dt>Versions</dt>");
       versions.append(versionTitle);
       for (const version of data.versions) {
-        addLink(versions, version.version, version.url);
+        addLink(versions, version.version, "", version.url);
       }
     }
 
-    function addLink(parent, text, url) {
+    function addLink(parent, text, title, url) {
       const ddTag = $("<dd></dd>");
       const aTag = $("<a></a>"); 
       aTag.text(text);
       aTag.attr("href", url);
+      aTag.attr("title", title);
       ddTag.append(aTag);
       parent.append(ddTag);
+    }
+
+    function getLanguageDisplayText(lang) { 
+      const displayNames = new Intl.DisplayNames(lang, { type: 'language'});
+      return displayNames.of(lang);
+    }
+
+    function getLanguageEmoji(lang) {
+      const mapping = {
+        en: "gb",
+        ja: "jp"
+      }
+      const country = mapping[lang] || lang;
+      const emoji = country
+        .split('')
+        .map(char => String.fromCodePoint(0x1F1E6 + (char.charCodeAt(0) - 97)))
+        .join('');
+      return emoji;
     }
     
     function loadVersionsAndLanguages() {
