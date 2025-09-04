@@ -37,6 +37,24 @@ Furthermore you need to define the `VERSION`.
         sh "make -C /doc-build html BASEDIR='${env.WORKSPACE}/doc' VERSION=${env.BRANCH_NAME}"
     }
 
+# version switcher
+
+The version switcher can be enabled by defining `VERSION_SWITCHER=true`.
+
+Current versions and languages are loaded from a REST endpoint that must be located at the path `/api/docs/{product}/{version}/{language}` 
+on the website that hosts the documentation. The response must have the following format:
+
+```json
+{
+    "versions":[
+        {"version":"10.0","url":"https:\/\/dev.axonivy.com\/doc\/10.0\/en"},
+        {"version":"12.0","url":"https:\/\/dev.axonivy.com\/doc\/12.0\/en"},
+        {"version":"13.2","url":"https:\/\/dev.axonivy.com\/doc\/13.2\/en"},
+    "languages":[
+        {"language":"en","url":"https:\/\/dev.axonivy.com\/doc\/13.2\/en"},
+        {"language":"ja","url":"https:\/\/dev.axonivy.com\/doc\/13.2\/ja"}]
+}
+```
 
 # translations
 

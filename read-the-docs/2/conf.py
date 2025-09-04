@@ -68,6 +68,22 @@ def localeDir():
     # 2. fallback best practice
     return 'locales/'
 
+def language():
+    # 1. get from environment variable
+    import os
+    if "SPHINXOPTS" in os.environ:
+      opts = os.environ['SPHINXOPTS']
+      lang =  opts.split("language='")[1]
+      lang = lang.split("'")[0]
+      return lang
+
+    # 2. fallback best practice
+    return 'en'
+
+def versionSwitcher():
+  import os
+  return "VERSION_SWITCHER" in os.environ
+
 def gettextCompact():
     # 1. get from environment variable
     import os
@@ -84,6 +100,7 @@ version = eval_version()
 buildExampleVersion = parse_build_example_version()
 branchVersion = parse_branch_version()
 release = version
+language = language()
 
 import sys
 sys.stdout.write("version: " +version+"\n")
@@ -94,6 +111,15 @@ needs_sphinx = '8.0'
 master_doc = 'index'
 pygments_style = 'tango'
 add_function_parentheses = True
+
+if versionSwitcher():
+  templates_path = ['_templates']
+
+html_context = {
+  'current_project' : project,
+  'current_version' : version,
+  'current_language': language,
+}
 
 # graphviz
 graphviz_output_format = 'svg'

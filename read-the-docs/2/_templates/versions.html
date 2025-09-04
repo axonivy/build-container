@@ -1,0 +1,68 @@
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+
+  <span class="rst-current-version" data-toggle="rst-current-version" onclick="loadVersionsAndLanguages()">
+    Version: {{ current_version }} ({{ current_language }})
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl id="languages">
+    </dl>
+    <dl id="versions">
+    </dl>
+  </div>
+  <script>
+    function setContent(data) {
+      const languages = $("#languages");
+      languages.text("");
+      const langTitle = $("<dt>Languages</dt>");
+      languages.append(langTitle);
+      for (const lang of data.languages) {
+        addLink(languages, lang.language, lang.url);
+      }
+      const versions = $("#versions");
+      versions.text("");
+      const versionTitle = $("<dt>Versions</dt>");
+      versions.append(versionTitle);
+      for (const version of data.versions) {
+        addLink(versions, version.version, version.url);
+      }
+    }
+
+    function addLink(parent, text, url) {
+      const ddTag = $("<dd></dd>");
+      const aTag = $("<a></a>"); 
+      aTag.text(text);
+      aTag.attr("href", url);
+      ddTag.append(aTag);
+      parent.append(ddTag);
+    }
+    
+    function loadVersionsAndLanguages() {
+      const languages = $("#languages");
+      if (languages.children().length > 0) {
+        return;
+      }
+      languages.text("Loading ...");
+      $.ajax({ 
+        type: "GET",
+        dataType: "json",
+        timeout: 60000,
+        url: "/api/docs/{{ current_project }}/{{ current_version}}/{{ current_language }}",
+        success: function(data) {
+          setContent(data);       
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          setContent({
+            "languages": [{
+                "language": "{{ current_language }}",
+                "url": "#" }],
+            "versions": [{
+                "version": "{{ current_version }}",
+                "url": "#"
+              }] });
+          console.warn("Cannot load version and language information: " + thrownError);
+        }
+      });
+    }
+  </script>
+</div>
