@@ -52,6 +52,10 @@ def parse_version_from_pom():
 
 def parse_project_name_from_pom():
     import os
+
+    if "PROJECT_NAME" in os.environ:
+      return os.environ['PROJECT_NAME']
+
     from xml.etree import ElementTree as et
     tree = et.ElementTree()
     tree.parse(os.environ['BASEDIR'] + '/pom.xml')
