@@ -185,6 +185,7 @@ gettext_compact = gettextCompact()
 # https://stackoverflow.com/questions/1227037/substitutions-inside-links-in-rest-sphinx
 extlinks = {
     'dev-url': ('https://developer.axonivy.com%s', None),
+    'doc-url': ('https://developer.axonivy.com/doc/' + version + '/' + language + '%s', None),
     'public-api': ('https://developer.axonivy.com/doc/' + version + '/public-api%s', None),
     'java-api': ('https://docs.oracle.com/en/java/javase/11/docs/api%s', None),
     'portal-url': ('https://developer.axonivy.com/portal/' + version + '/doc%s', None),
