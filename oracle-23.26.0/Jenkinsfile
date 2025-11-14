@@ -36,13 +36,13 @@ pipeline {
 }
 
 def buildOracleImage() {
-  def tag = "23.9.0-free"
+  def tag = "23.26.0-free"
 
   def baseImageName = "oracle/database:${tag}"
   def baseImage
   dir ('docker-images/OracleDatabase/SingleInstance/dockerfiles') {
     // -v = Version, -f = FREE edition
-    sh "./buildContainerImage.sh -v 23.9.0 -f"
+    sh "./buildContainerImage.sh -v 23.26.0 -f"
 
     baseImage = docker.image(baseImageName)
     docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
@@ -55,7 +55,7 @@ def buildOracleImage() {
   def imageName = "oracle/database-orapdb:${tag}"
   baseImage.withRun('-e "ORACLE_SID=FREE" -e "ORACLE_PDB=ORAPDB" -e "ORACLE_CHARACTERSET=AL32UTF8" -e "ORACLE_PWD=nimda"') { container -> 
     waitUntilDbIsReady(container)
-    sh "docker cp oracle-23.9.0/listener.ora ${container.id}:/opt/oracle/product/23ai/dbhomeFree/network/admin/listener.ora"
+    sh "docker cp oracle-23.26.0/listener.ora ${container.id}:/opt/oracle/product/26ai/dbhomeFree/network/admin/listener.ora"
     sh "docker commit ${container.id} ${imageName}"
   }
 
