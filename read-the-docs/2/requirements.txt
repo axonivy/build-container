@@ -2,6 +2,6 @@ sphinx==8.2.3
 sphinx_rtd_theme==3.0.2
 sphinx-autobuild==2025.8.25
 sphinxcontrib.httpdomain==1.8.1
-myst-parser==4.0.1
+myst-parser==5.0.0
 sphinx_design==0.6.1
 sphinx-intl==2.3.2
