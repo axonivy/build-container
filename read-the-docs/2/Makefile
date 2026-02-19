@@ -23,7 +23,7 @@ livehtml:
 	sphinx-autobuild -c "$(CONFIGDIR)" --host 0.0.0.0 "$(SOURCEDIR)" "$(BUILDDIR)/html" $(O)
 
 generatePO:
-	sphinx-intl update -p "$(BUILDDIR)/gettext" -j 1 -l $(LANGUAGE)
+	sphinx-intl update -p "$(BUILDDIR)/gettext" -j 1 -l "$(LANGUAGE)" $(O)
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
