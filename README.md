@@ -1,3 +1,3 @@
 # Build Container
 
-These containers are used to build software.
+These containers are used to build software at ivyTeam.
