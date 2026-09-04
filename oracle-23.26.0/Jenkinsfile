@@ -9,13 +9,6 @@ pipeline {
     cron '@midnight'
   }
 
-  environment {
-    // in the new docker version the Buildx and BuildKit are used as the default builder
-    // this breakes our docker image creation so we use the parameter below to use the default builder used in docker 20.x
-    // https://docs.docker.com/engine/release-notes/23.0/
-    DOCKER_BUILDKIT='0'
-  }
-
   stages {
     stage('build') {
       steps {
@@ -36,13 +29,13 @@ pipeline {
 }
 
 def buildOracleImage() {
-  def tag = "23.26.1-free"
+  def tag = "23.26.0-free"
 
   def baseImageName = "oracle/database:${tag}"
   def baseImage
   dir ('docker-images/OracleDatabase/SingleInstance/dockerfiles') {
     // -v = Version, -f = FREE edition
-    sh "./buildContainerImage.sh -v 23.26.1 -f"
+    sh "./buildContainerImage.sh -v 23.26.0 -f"
 
     baseImage = docker.image(baseImageName)
     docker.withRegistry('https://docker-registry.ivyteam.io', 'docker-registry.ivyteam.io') {
@@ -55,7 +48,7 @@ def buildOracleImage() {
   def imageName = "oracle/database-orapdb:${tag}"
   baseImage.withRun('-e "ORACLE_SID=FREE" -e "ORACLE_PDB=ORAPDB" -e "ORACLE_CHARACTERSET=AL32UTF8" -e "ORACLE_PWD=nimda"') { container -> 
     waitUntilDbIsReady(container)
-    sh "docker cp oracle-23.26.1/listener.ora ${container.id}:/opt/oracle/product/26ai/dbhomeFree/network/admin/listener.ora"
+    sh "docker cp oracle-23.26.0/listener.ora ${container.id}:/opt/oracle/product/26ai/dbhomeFree/network/admin/listener.ora"
     sh "docker commit ${container.id} ${imageName}"
   }
 
