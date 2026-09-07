@@ -30,6 +30,13 @@ def buildOracleImage() {
   sh 'rm -rf docker-images'
   sh 'git clone https://github.com/oracle/docker-images'
 
+  // they broke how we build the image
+  // one guess is that we need to download and provide the new binaries
+  // but I don't want to invest here, because I think we don't need this image in the near feature anymore.
+  dir('docker-images') {
+    sh 'git checkout 525879cf08165c8f80f21ca440b4ba212b7e36a6'
+  }
+
   def version = '19.3.0'
   def baseImageName = "oracle/database:${version}-se2"
   def baseImage
