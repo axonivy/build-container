@@ -48,6 +48,8 @@ def buildOracleImage() {
   def imageName = "oracle/database-orapdb:${tag}"
   baseImage.withRun('-e "ORACLE_SID=FREE" -e "ORACLE_PDB=ORAPDB" -e "ORACLE_CHARACTERSET=AL32UTF8" -e "ORACLE_PWD=nimda"') { container -> 
     waitUntilDbIsReady(container)
+    // Free caps cpu_count at 2, which limits the default processes to 200; parallel integration tests exhaust that
+    sh "docker exec ${container.id} sh -c \"echo 'alter system set processes=600 scope=spfile;' | sqlplus -s / as sysdba\""
     sh "docker cp oracle-23.26.0/listener.ora ${container.id}:/opt/oracle/product/26ai/dbhomeFree/network/admin/listener.ora"
     sh "docker commit ${container.id} ${imageName}"
   }
