@@ -187,7 +187,7 @@ extlinks = {
     'doc-url': ('https://developer.axonivy.com/doc/' + version + '/' + language + '%s', None),
     'public-api': ('https://developer.axonivy.com/doc/' + version + '/public-api%s', None),
     'java-api': ('https://docs.oracle.com/en/java/javase/11/docs/api%s', None),
-    'portal-url': ('https://developer.axonivy.com/portal/' + version + '/doc%s', None),
+    'portal-url': ('https://axonivy-market.github.io/portal/release/' + version + '/' + language + '%s', None),
     # only needed for 9.2 and earlier branches - can be deleted once we drop support or when we change to link-url in these branches as well
     'github-build-examples': ('https://github.com/axonivy/project-build-examples/blob/' + buildExampleVersion + '/compile-test%s', None),
     'api-browser-url': ('https://developer.axonivy.com/api-browser?configUrl=https://developer.axonivy.com/doc/' + version + '/openapi/config.json&urls.primaryName=%s', None),
